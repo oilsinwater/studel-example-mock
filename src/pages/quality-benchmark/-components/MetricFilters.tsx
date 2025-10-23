@@ -1,8 +1,8 @@
 import React from 'react';
 import {
   Box,
+  Button,
   FormControlLabel,
-  Paper,
   Slider,
   Stack,
   Switch,
@@ -10,6 +10,7 @@ import {
 } from '@mui/material';
 import { MetricFilter } from '../-config/taskflow.types';
 import { qualityBenchmarkConfig } from '../-config/taskflow.config';
+import { Surface } from '../../../components/Surface';
 
 interface MetricFiltersProps {
   filters: MetricFilter[];
@@ -45,23 +46,24 @@ export const MetricFilters: React.FC<MetricFiltersProps> = ({
   };
 
   return (
-    <Paper sx={{ p: 2 }} data-testid="metric-filter">
-      <Stack spacing={2}>
+    <Surface
+      dense
+      title="Metric filters"
+      eyebrow="Thresholds"
+      data-testid="metric-filter"
+    >
+      <Stack spacing={2.5}>
         <Stack
           direction="row"
           justifyContent="space-between"
           alignItems="center"
         >
-          <Typography variant="h6">Metric Filters</Typography>
-          <Typography
-            component="button"
-            variant="body2"
-            color="primary"
-            onClick={onClear}
-            style={{ background: 'none', border: 'none', cursor: 'pointer' }}
-          >
-            Clear all
+          <Typography variant="body2" color="text.secondary">
+            Toggle the metrics you care about and tune their target ranges.
           </Typography>
+          <Button variant="text" size="small" onClick={onClear}>
+            Clear all
+          </Button>
         </Stack>
 
         {qualityBenchmarkConfig.metrics.map((metric) => {
@@ -71,8 +73,14 @@ export const MetricFilters: React.FC<MetricFiltersProps> = ({
             <Box
               key={metric.field}
               data-testid={`metric-filter-${metric.field}`}
+              sx={{
+                p: 2,
+                borderRadius: 2,
+                border: '1px solid rgba(255,255,255,0.05)',
+                backgroundColor: 'rgba(17,17,19,0.65)',
+              }}
             >
-              <Stack direction="row" alignItems="center" spacing={1}>
+              <Stack direction="row" alignItems="center" spacing={1.5}>
                 <Typography variant="subtitle2">{metric.label}</Typography>
                 <FormControlLabel
                   control={
@@ -106,11 +114,12 @@ export const MetricFilters: React.FC<MetricFiltersProps> = ({
                 max={range.max}
                 step={range.step}
                 disabled={!enabled}
+                sx={{ mt: 2 }}
               />
             </Box>
           );
         })}
       </Stack>
-    </Paper>
+    </Surface>
   );
 };

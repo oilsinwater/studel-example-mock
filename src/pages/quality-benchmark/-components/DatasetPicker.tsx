@@ -1,8 +1,9 @@
 import React from 'react';
 import { DataGrid, GridRowSelectionModel } from '@mui/x-data-grid';
-import { Paper, Box } from '@mui/material';
+import { Box } from '@mui/material';
 import { BenchmarkRow } from '../-config/taskflow.types';
 import { qualityBenchmarkConfig } from '../-config/taskflow.config';
+import { Surface } from '../../../components/Surface';
 
 interface DatasetPickerProps {
   rows: BenchmarkRow[];
@@ -20,7 +21,11 @@ export const DatasetPicker: React.FC<DatasetPickerProps> = ({
   };
 
   return (
-    <Paper sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
+    <Surface
+      eyebrow="Comparison pool"
+      title="Select datasets"
+      sx={{ height: '100%', display: 'flex' }}
+    >
       <Box sx={{ flex: 1 }} data-testid="qb-picker">
         <DataGrid
           rows={rows}
@@ -43,6 +48,6 @@ export const DatasetPicker: React.FC<DatasetPickerProps> = ({
           }}
         />
       </Box>
-    </Paper>
+    </Surface>
   );
 };

@@ -1,5 +1,6 @@
 import React from 'react';
-import { Button, Chip, Divider, Paper, Stack, Typography } from '@mui/material';
+import { Button, Chip, Divider, Stack, Typography } from '@mui/material';
+import { Surface } from '../../../components/Surface';
 
 interface SelectionSummaryProps {
   originFlow: string | null;
@@ -15,23 +16,22 @@ export const SelectionSummary: React.FC<SelectionSummaryProps> = ({
   onReset,
 }) => {
   return (
-    <Paper sx={{ p: 2 }}>
-      <Stack spacing={1}>
-        <Stack direction="row" spacing={1} alignItems="center">
-          <Typography variant="h6">Selection Summary</Typography>
-          {originFlow ? (
-            <Chip label={`Origin: ${originFlow}`} size="small" />
-          ) : null}
-        </Stack>
+    <Surface
+      dense
+      title="Selection summary"
+      eyebrow="Benchmark state"
+      data-testid="qb-selection-summary"
+    >
+      <Stack spacing={1.5}>
         <Typography variant="body2" color="text.secondary">
-          Choose at least two datasets to unlock comparison metrics. Baseline
-          determines the reference row used for delta calculations.
+          Choose at least two datasets to unlock comparison metrics. The
+          baseline anchors delta calculations across charts.
         </Typography>
-        <Divider flexItem sx={{ my: 1 }} />
+        <Divider flexItem sx={{ borderColor: 'rgba(255,255,255,0.08)' }} />
         <Typography variant="body2">
           Selected datasets: <strong>{selectedIds.length}</strong>
         </Typography>
-        <Typography variant="body2">
+        <Typography variant="body2" sx={{ display: 'flex', gap: 1 }}>
           Baseline dataset:{' '}
           {baselineId ? (
             <Chip label={baselineId} size="small" color="primary" />
@@ -39,10 +39,18 @@ export const SelectionSummary: React.FC<SelectionSummaryProps> = ({
             '—'
           )}
         </Typography>
+        {originFlow ? (
+          <Chip
+            label={`Origin: ${originFlow}`}
+            size="small"
+            variant="outlined"
+            sx={{ alignSelf: 'flex-start' }}
+          />
+        ) : null}
         <Button variant="text" color="secondary" onClick={onReset} size="small">
           Reset selection
         </Button>
       </Stack>
-    </Paper>
+    </Surface>
   );
 };

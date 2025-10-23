@@ -2,6 +2,7 @@ import React, { useMemo, useRef } from 'react';
 import { Box, Grid, Stack, Button } from '@mui/material';
 import { createFileRoute, useNavigate } from '@tanstack/react-router';
 import { PageHeader } from '../../../components/PageHeader';
+import { Surface } from '../../../components/Surface';
 import { useQualityBenchmarkContext } from '../-context/ContextProvider';
 import {
   clearMetricFilters,
@@ -80,58 +81,60 @@ export function QualityBenchmarkIndexPage() {
   };
 
   return (
-    <Box sx={{ height: '100vh', display: 'flex', flexDirection: 'column' }}>
-      <Box sx={{ p: 3 }} data-testid="qb-header">
+    <Stack spacing={4} sx={{ py: 3 }}>
+      <Box data-testid="qb-header">
         <PageHeader
           pageTitle={qualityBenchmarkConfig.title}
           description={qualityBenchmarkConfig.description}
         />
       </Box>
 
-      <Box sx={{ flex: 1, p: 3, pt: 0 }}>
-        <Grid container spacing={3} sx={{ height: '100%' }}>
-          <Grid item xs={12} md={4} lg={3} sx={{ height: '100%' }}>
-            <Stack spacing={2} sx={{ height: '100%' }}>
-              <SelectionSummary
-                originFlow={state.originFlow}
-                selectedIds={state.selectedIds}
-                baselineId={state.baselineId}
-                onReset={handleReset}
-              />
-              <MetricFilters
-                filters={state.metricFilters}
-                onFilterChange={(filter) =>
-                  dispatch(updateMetricFilter(filter))
+      <Grid container spacing={3} sx={{ alignItems: 'stretch' }}>
+        <Grid item xs={12} md={4} lg={3}>
+          <Stack spacing={3} sx={{ height: '100%' }}>
+            <SelectionSummary
+              originFlow={state.originFlow}
+              selectedIds={state.selectedIds}
+              baselineId={state.baselineId}
+              onReset={handleReset}
+            />
+            <MetricFilters
+              filters={state.metricFilters}
+              onFilterChange={(filter) => dispatch(updateMetricFilter(filter))}
+              onClear={() => dispatch(clearMetricFilters())}
+              enabledMetrics={enabledMetrics}
+              onMetricToggle={(metric, enabled) => {
+                if (enabled) {
+                  dispatch(
+                    updateMetricFilter({
+                      metric,
+                      threshold: metricDefaultThreshold[metric],
+                      direction: metric === 'anomalyRate' ? 'lt' : 'gt',
+                    })
+                  );
+                } else {
+                  dispatch(removeMetricFilter(metric));
                 }
-                onClear={() => dispatch(clearMetricFilters())}
-                enabledMetrics={enabledMetrics}
-                onMetricToggle={(metric, enabled) => {
-                  if (enabled) {
-                    dispatch(
-                      updateMetricFilter({
-                        metric,
-                        threshold: metricDefaultThreshold[metric],
-                        direction: metric === 'anomalyRate' ? 'lt' : 'gt',
-                      })
-                    );
-                  } else {
-                    dispatch(removeMetricFilter(metric));
-                  }
-                }}
-              />
-            </Stack>
-          </Grid>
+              }}
+            />
+          </Stack>
+        </Grid>
 
-          <Grid item xs={12} md={8} lg={9} sx={{ height: '100%' }}>
-            <Stack spacing={2} sx={{ height: '100%' }}>
-              <Box sx={{ flex: 1 }}>
-                <DatasetPicker
-                  rows={state.benchmarkRows}
-                  selectedIds={state.selectedIds}
-                  onSelectionChange={handleSelectionChange}
-                />
-              </Box>
-              <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
+        <Grid item xs={12} md={8} lg={9}>
+          <Stack spacing={3} sx={{ height: '100%' }}>
+            <Box sx={{ flex: 1 }}>
+              <DatasetPicker
+                rows={state.benchmarkRows}
+                selectedIds={state.selectedIds}
+                onSelectionChange={handleSelectionChange}
+              />
+            </Box>
+            <Surface dense eyebrow="Compare" title="Run benchmark actions">
+              <Stack
+                direction={{ xs: 'column', sm: 'row' }}
+                spacing={2}
+                sx={{ alignItems: { sm: 'center' } }}
+              >
                 <Button
                   variant="contained"
                   color="primary"
@@ -157,11 +160,11 @@ export function QualityBenchmarkIndexPage() {
                   Select All in View
                 </Button>
               </Stack>
-            </Stack>
-          </Grid>
+            </Surface>
+          </Stack>
         </Grid>
-      </Box>
-    </Box>
+      </Grid>
+    </Stack>
   );
 }
 
