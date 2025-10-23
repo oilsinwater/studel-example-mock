@@ -1,14 +1,4 @@
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import AddIcon from '@mui/icons-material/Add';
-import {
-  AppBar,
-  Box,
-  Button,
-  IconButton,
-  Stack,
-  Toolbar,
-  Typography,
-} from '@mui/material';
+import { AppBar, Box, Stack, Toolbar, Typography } from '@mui/material';
 import React from 'react';
 import { AppLink } from './AppLink';
 
@@ -92,35 +82,6 @@ export const TopBar: React.FC = () => {
               </AppLink>
             ))}
           </Box>
-        </Stack>
-        <Stack
-          direction="row"
-          spacing={1.5}
-          alignItems="center"
-          sx={{ flexShrink: 0 }}
-        >
-          <Button
-            size="small"
-            color="neutral"
-            startIcon={<AddIcon sx={{ fontSize: 16 }} />}
-          >
-            New Workspace
-          </Button>
-          <IconButton
-            size="small"
-            edge="end"
-            color="inherit"
-            sx={{
-              backgroundColor: 'rgba(255,255,255,0.06)',
-              border: '1px solid',
-              borderColor: 'divider',
-              '&:hover': {
-                backgroundColor: 'rgba(255,255,255,0.12)',
-              },
-            }}
-          >
-            <AccountCircleIcon fontSize="small" />
-          </IconButton>
         </Stack>
       </Toolbar>
     </AppBar>

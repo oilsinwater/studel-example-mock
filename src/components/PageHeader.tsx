@@ -1,15 +1,7 @@
 import React from 'react';
-import {
-  PaperProps,
-  Breadcrumbs,
-  Link,
-  Paper,
-  Stack,
-  Typography,
-} from '@mui/material';
-import HomeIcon from '@mui/icons-material/Home';
+import { Box, BoxProps, Stack, Typography } from '@mui/material';
 
-interface PageHeaderProps extends PaperProps {
+interface PageHeaderProps extends BoxProps {
   pageTitle: React.ReactNode;
   breadcrumbTitle?: string;
   description?: string;
@@ -24,27 +16,50 @@ export const PageHeader: React.FC<PageHeaderProps> = ({
   ...rest
 }) => {
   return (
-    <Paper elevation={0} {...rest}>
-      <Stack direction="row" justifyContent="space-between">
-        <Stack spacing={1}>
-          <Breadcrumbs aria-label="breadcrumb">
-            <Link underline="hover" color="inherit" href="/">
-              <HomeIcon />
-            </Link>
-            <Link underline="hover" color="inherit">
-              ...
-            </Link>
-            <Typography color="text.primary">
-              {breadcrumbTitle || pageTitle}
-            </Typography>
-          </Breadcrumbs>
-          <Typography variant="h4" component="h1">
-            {pageTitle}
+    <Box
+      component="header"
+      {...rest}
+      sx={[
+        {
+          position: 'relative',
+          display: 'flex',
+          flexDirection: { xs: 'column', md: 'row' },
+          alignItems: { md: 'center' },
+          justifyContent: 'space-between',
+          gap: 3,
+          pb: 3,
+          borderBottom: '1px solid',
+          borderColor: 'divider',
+        },
+        ...(Array.isArray(rest.sx) ? rest.sx : rest.sx ? [rest.sx] : []),
+      ]}
+    >
+      <Stack spacing={1.25} sx={{ maxWidth: 720 }}>
+        <Typography variant="overline" color="text.secondary">
+          {breadcrumbTitle || 'Workspace'}
+        </Typography>
+        <Typography
+          variant="h3"
+          component="h1"
+          sx={{
+            fontWeight: 500,
+            letterSpacing: '-0.015em',
+            lineHeight: 1.15,
+          }}
+        >
+          {pageTitle}
+        </Typography>
+        {description ? (
+          <Typography variant="body2" color="text.secondary">
+            {description}
           </Typography>
-          <Typography variant="body2">{description}</Typography>
-        </Stack>
-        {actions}
+        ) : null}
       </Stack>
-    </Paper>
+      {actions ? (
+        <Box sx={{ display: 'flex', gap: 1.5, alignItems: 'center' }}>
+          {actions}
+        </Box>
+      ) : null}
+    </Box>
   );
 };
