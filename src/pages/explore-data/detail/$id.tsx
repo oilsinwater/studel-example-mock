@@ -1,15 +1,5 @@
 import { useEffect } from 'react';
-import {
-  Box,
-  Button,
-  Card,
-  CardContent,
-  Grid,
-  IconButton,
-  Paper,
-  Stack,
-  Typography,
-} from '@mui/material';
+import { Box, Button, Grid, Stack, Typography } from '@mui/material';
 import { ArrowBack, Download, Share } from '@mui/icons-material';
 import { DataGrid } from '@mui/x-data-grid';
 import {
@@ -25,6 +15,7 @@ import {
 } from '../-context/ContextProvider';
 import { loadDatasetDetail, finishLoadDetail } from '../-context/actions';
 import { exploreDataConfig } from '../-config/taskflow.config';
+import { Surface } from '../../../components/Surface';
 
 export const Route = createFileRoute('/explore-data/detail/$id')({
   component: DatasetDetailPage,
@@ -124,128 +115,145 @@ const DatasetDetailContent: React.FC = () => {
   }
 
   return (
-    <Box sx={{ p: 3 }}>
-      <Box data-testid="ed-header" sx={{ mb: 3 }}>
-        <Stack direction="row" alignItems="center" spacing={2}>
-          <IconButton data-testid="back-button" onClick={handleBack}>
-            <ArrowBack />
-          </IconButton>
-          <Box sx={{ flex: 1 }}>
-            <PageHeader
-              pageTitle={state.currentDataset.name}
-              description="Dataset details and sample data"
-            />
-          </Box>
-          <Stack direction="row" spacing={1}>
-            <Button startIcon={<Download />} size="small">
-              Download
-            </Button>
-            <Button startIcon={<Share />} size="small">
-              Export Metadata
-            </Button>
-          </Stack>
-        </Stack>
-      </Box>
+    <Stack spacing={4} sx={{ py: 3 }}>
+      <Stack spacing={2} data-testid="ed-header">
+        <Button
+          data-testid="back-button"
+          onClick={handleBack}
+          startIcon={<ArrowBack />}
+          variant="text"
+          size="small"
+          color="secondary"
+          sx={{ alignSelf: 'flex-start' }}
+        >
+          Back to datasets
+        </Button>
+        <PageHeader
+          pageTitle={state.currentDataset.name}
+          breadcrumbTitle="Dataset"
+          description="Dataset details and sample data"
+          actions={
+            <Stack direction="row" spacing={1}>
+              <Button startIcon={<Download />} size="small" color="primary">
+                Download
+              </Button>
+              <Button startIcon={<Share />} size="small" variant="outlined">
+                Export Metadata
+              </Button>
+            </Stack>
+          }
+        />
+      </Stack>
 
       <Grid container spacing={3}>
         <Grid item xs={12} md={6}>
-          <Box data-testid="ed-metadata">
-            <Card>
-              <CardContent>
-                <Typography variant="h6" gutterBottom>
-                  Metadata
-                </Typography>
-                <Stack spacing={2}>
-                  <Box>
-                    <Typography variant="subtitle2">Description</Typography>
-                    <Typography variant="body2" color="textSecondary">
-                      {state.currentDataset.description}
-                    </Typography>
-                  </Box>
-                  <Box>
-                    <Typography variant="subtitle2">
-                      File Information
-                    </Typography>
-                    <Typography variant="body2">
-                      <strong>Format:</strong> {state.currentDataset.format}
-                    </Typography>
-                    <Typography variant="body2">
-                      <strong>Size:</strong>{' '}
-                      {formatFileSize(state.currentDataset.fileSize)}
-                    </Typography>
-                    <Typography variant="body2">
-                      <strong>Last Modified:</strong>{' '}
-                      {new Date(
-                        state.currentDataset.lastModified
-                      ).toLocaleDateString()}
-                    </Typography>
-                  </Box>
-                  <Box>
-                    <Typography variant="subtitle2">Domain</Typography>
-                    <Typography variant="body2">
-                      {state.currentDataset.domain}
-                    </Typography>
-                  </Box>
-                </Stack>
-              </CardContent>
-            </Card>
+          <Box data-testid="ed-metadata" sx={{ height: '100%' }}>
+            <Surface
+              title="Metadata"
+              eyebrow="About this dataset"
+              sx={{ height: '100%' }}
+            >
+              <Stack spacing={2}>
+                <Box>
+                  <Typography variant="subtitle2" color="text.secondary">
+                    Description
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    {state.currentDataset.description}
+                  </Typography>
+                </Box>
+                <Box>
+                  <Typography variant="subtitle2" color="text.secondary">
+                    File information
+                  </Typography>
+                  <Typography variant="body2">
+                    <strong>Format:</strong> {state.currentDataset.format}
+                  </Typography>
+                  <Typography variant="body2">
+                    <strong>Size:</strong>{' '}
+                    {formatFileSize(state.currentDataset.fileSize)}
+                  </Typography>
+                  <Typography variant="body2">
+                    <strong>Last modified:</strong>{' '}
+                    {new Date(
+                      state.currentDataset.lastModified
+                    ).toLocaleDateString()}
+                  </Typography>
+                </Box>
+                <Box>
+                  <Typography variant="subtitle2" color="text.secondary">
+                    Domain
+                  </Typography>
+                  <Typography variant="body2">
+                    {state.currentDataset.domain}
+                  </Typography>
+                </Box>
+              </Stack>
+            </Surface>
           </Box>
         </Grid>
 
         <Grid item xs={12} md={6}>
-          <Box data-testid="ed-statistics">
-            <Card>
-              <CardContent>
-                <Typography variant="h6" gutterBottom>
-                  Statistics
-                </Typography>
-                <Stack spacing={2}>
-                  <Box>
-                    <Typography variant="subtitle2">
-                      Dataset Dimensions
-                    </Typography>
-                    <Typography variant="body2">
-                      <strong>Rows:</strong>{' '}
-                      {state.currentDataset.rowCount.toLocaleString()}
-                    </Typography>
-                    <Typography variant="body2">
-                      <strong>Columns:</strong>{' '}
-                      {state.currentDataset.columns.length}
-                    </Typography>
-                  </Box>
-                  <Box>
-                    <Typography variant="subtitle2">
-                      Data Quality Metrics
-                    </Typography>
-                    <Typography variant="body2">
-                      <strong>Quality Score:</strong>{' '}
-                      {Math.round(state.currentDataset.quality_score * 100)}%
-                    </Typography>
-                    <Typography variant="body2">
-                      <strong>Completeness:</strong>{' '}
-                      {state.currentDataset.completeness}%
-                    </Typography>
-                  </Box>
-                  <Box>
-                    <Typography variant="subtitle2">
-                      Available Columns
-                    </Typography>
-                    <Typography variant="body2">
-                      {state.currentDataset.columns.join(', ')}
-                    </Typography>
-                  </Box>
-                </Stack>
-              </CardContent>
-            </Card>
+          <Box data-testid="ed-statistics" sx={{ height: '100%' }}>
+            <Surface
+              title="Statistics"
+              eyebrow="Signals"
+              sx={{ height: '100%' }}
+            >
+              <Stack spacing={2}>
+                <Box>
+                  <Typography variant="subtitle2" color="text.secondary">
+                    Dataset dimensions
+                  </Typography>
+                  <Typography variant="body2">
+                    <strong>Rows:</strong>{' '}
+                    {state.currentDataset.rowCount.toLocaleString()}
+                  </Typography>
+                  <Typography variant="body2">
+                    <strong>Columns:</strong>{' '}
+                    {state.currentDataset.columns.length}
+                  </Typography>
+                </Box>
+                <Box>
+                  <Typography variant="subtitle2" color="text.secondary">
+                    Data quality metrics
+                  </Typography>
+                  <Typography variant="body2">
+                    <strong>Quality score:</strong>{' '}
+                    {Math.round(state.currentDataset.quality_score * 100)}%
+                  </Typography>
+                  <Typography variant="body2">
+                    <strong>Completeness:</strong>{' '}
+                    {state.currentDataset.completeness}%
+                  </Typography>
+                </Box>
+                <Box>
+                  <Typography variant="subtitle2" color="text.secondary">
+                    Available columns
+                  </Typography>
+                  <Typography variant="body2">
+                    {state.currentDataset.columns.join(', ')}
+                  </Typography>
+                </Box>
+              </Stack>
+            </Surface>
           </Box>
         </Grid>
 
         <Grid item xs={12}>
-          <Paper sx={{ height: 600 }}>
-            <Box sx={{ p: 2, borderBottom: 1, borderColor: 'divider' }}>
-              <Typography variant="h6">Sample Data (First 100 rows)</Typography>
-            </Box>
-            <Box data-testid="ed-grid" sx={{ height: 'calc(100% - 64px)' }}>
+          <Surface
+            title="Sample Data"
+            eyebrow="First 100 rows"
+            sx={{ height: 600, display: 'flex', flexDirection: 'column' }}
+          >
+            <Box
+              data-testid="ed-grid"
+              sx={{
+                flex: 1,
+                minHeight: 0,
+                '& .MuiDataGrid-root': { border: 0 },
+              }}
+            >
               <DataGrid
                 rows={state.currentDataset.sampleData}
                 columns={sampleColumns}
@@ -257,10 +265,10 @@ const DatasetDetailContent: React.FC = () => {
                 density="compact"
               />
             </Box>
-          </Paper>
+          </Surface>
         </Grid>
       </Grid>
-    </Box>
+    </Stack>
   );
 };
 

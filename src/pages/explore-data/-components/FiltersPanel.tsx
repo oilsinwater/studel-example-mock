@@ -5,7 +5,6 @@ import {
   FormControl,
   InputLabel,
   MenuItem,
-  Paper,
   Select,
   Slider,
   Stack,
@@ -14,6 +13,7 @@ import {
 import { useExploreDataContext } from '../-context/ContextProvider';
 import { applyFilter, removeFilter, clearFilters } from '../-context/actions';
 import { exploreDataConfig } from '../-config/taskflow.config';
+import { Surface } from '../../../components/Surface';
 
 export const FiltersPanel: React.FC = () => {
   const { state, dispatch } = useExploreDataContext();
@@ -53,11 +53,7 @@ export const FiltersPanel: React.FC = () => {
   };
 
   return (
-    <Paper sx={{ p: 2, height: '100%' }}>
-      <Typography variant="h6" gutterBottom>
-        Filters
-      </Typography>
-
+    <Surface title="Filters" eyebrow="Refine results" sx={{ height: '100%' }}>
       <Stack spacing={3}>
         {exploreDataConfig.filters.map((filterConfig) => (
           <Box key={filterConfig.field}>
@@ -111,7 +107,13 @@ export const FiltersPanel: React.FC = () => {
         ))}
 
         {state.filters.length > 0 && (
-          <Box sx={{ pt: 2, borderTop: 1, borderColor: 'divider' }}>
+          <Box
+            sx={{
+              pt: 2,
+              borderTop: '1px solid',
+              borderColor: 'divider',
+            }}
+          >
             <Button
               data-testid="filters-apply"
               variant="outlined"
@@ -124,6 +126,6 @@ export const FiltersPanel: React.FC = () => {
           </Box>
         )}
       </Stack>
-    </Paper>
+    </Surface>
   );
 };

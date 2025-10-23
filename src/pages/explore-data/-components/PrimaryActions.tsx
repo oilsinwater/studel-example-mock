@@ -1,6 +1,7 @@
 import React from 'react';
-import { Button, Paper, Stack } from '@mui/material';
+import { Button, Stack } from '@mui/material';
 import { Visibility, BarChart, Assessment } from '@mui/icons-material';
+import { Surface } from '../../../components/Surface';
 
 interface PrimaryActionsProps {
   onViewDetail: () => void;
@@ -16,8 +17,8 @@ export const PrimaryActions: React.FC<PrimaryActionsProps> = ({
   disabled,
 }) => {
   return (
-    <Paper sx={{ p: 2 }}>
-      <Stack spacing={2}>
+    <Surface dense title="Next steps" eyebrow="Actions">
+      <Stack spacing={1.5}>
         <Button
           data-testid="view-detail-button"
           variant="contained"
@@ -50,6 +51,6 @@ export const PrimaryActions: React.FC<PrimaryActionsProps> = ({
           Benchmark Quality
         </Button>
       </Stack>
-    </Paper>
+    </Surface>
   );
 };

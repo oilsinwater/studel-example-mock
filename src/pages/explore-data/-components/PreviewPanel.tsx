@@ -1,14 +1,7 @@
 import React from 'react';
-import {
-  Box,
-  Card,
-  CardContent,
-  Chip,
-  Paper,
-  Stack,
-  Typography,
-} from '@mui/material';
+import { Box, Chip, Stack, Typography } from '@mui/material';
 import { useExploreDataContext } from '../-context/ContextProvider';
+import { Surface } from '../../../components/Surface';
 
 export const PreviewPanel: React.FC = () => {
   const { state, filteredRows } = useExploreDataContext();
@@ -20,19 +13,20 @@ export const PreviewPanel: React.FC = () => {
 
   if (!selectedDataset) {
     return (
-      <Paper
+      <Surface
+        title="Preview"
+        eyebrow="Selected dataset"
         sx={{
-          p: 2,
           height: '100%',
-          display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
+          textAlign: 'center',
         }}
       >
-        <Typography color="textSecondary" align="center">
+        <Typography color="text.secondary">
           Select a dataset to preview its details
         </Typography>
-      </Paper>
+      </Surface>
     );
   }
 
@@ -44,81 +38,77 @@ export const PreviewPanel: React.FC = () => {
   };
 
   return (
-    <Paper sx={{ p: 2, height: '100%', overflow: 'auto' }}>
-      <Typography variant="h6" gutterBottom>
-        Preview
-      </Typography>
-
-      <Card variant="outlined">
-        <CardContent>
-          <Typography variant="h6" gutterBottom>
+    <Surface
+      title="Preview"
+      eyebrow="Selected dataset"
+      sx={{ height: '100%', overflow: 'auto' }}
+    >
+      <Stack spacing={2.5}>
+        <Box>
+          <Typography variant="h5" sx={{ fontWeight: 500 }} gutterBottom>
             {selectedDataset.name}
           </Typography>
-
-          <Typography variant="body2" color="textSecondary" paragraph>
+          <Typography variant="body2" color="text.secondary">
             {selectedDataset.description}
           </Typography>
+        </Box>
 
-          <Stack spacing={2}>
-            <Box>
-              <Typography variant="subtitle2" gutterBottom>
-                Format & Domain
-              </Typography>
-              <Stack direction="row" spacing={1}>
-                <Chip label={selectedDataset.format} size="small" />
-                <Chip
-                  label={selectedDataset.domain}
-                  size="small"
-                  variant="outlined"
-                />
-              </Stack>
-            </Box>
-
-            <Box>
-              <Typography variant="subtitle2" gutterBottom>
-                Dataset Size
-              </Typography>
-              <Stack spacing={1}>
-                <Typography variant="body2">
-                  <strong>Rows:</strong>{' '}
-                  {selectedDataset.rowCount.toLocaleString()}
-                </Typography>
-                <Typography variant="body2">
-                  <strong>Columns:</strong> {selectedDataset.columnCount}
-                </Typography>
-                <Typography variant="body2">
-                  <strong>File Size:</strong>{' '}
-                  {formatFileSize(selectedDataset.fileSize)}
-                </Typography>
-              </Stack>
-            </Box>
-
-            <Box>
-              <Typography variant="subtitle2" gutterBottom>
-                Data Quality
-              </Typography>
-              <Stack spacing={1}>
-                <Typography variant="body2">
-                  <strong>Quality Score:</strong>{' '}
-                  {Math.round(selectedDataset.quality_score * 100)}%
-                </Typography>
-                <Typography variant="body2">
-                  <strong>Completeness:</strong> {selectedDataset.completeness}%
-                </Typography>
-              </Stack>
-            </Box>
-
-            <Box>
-              <Typography variant="subtitle2" gutterBottom>
-                Last Modified
-              </Typography>
-              <Typography variant="body2">
-                {new Date(selectedDataset.lastModified).toLocaleDateString()}
-              </Typography>
-            </Box>
+        <Box>
+          <Typography variant="subtitle2" color="text.secondary" gutterBottom>
+            Format & Domain
+          </Typography>
+          <Stack direction="row" spacing={1.5} flexWrap="wrap">
+            <Chip label={selectedDataset.format} size="small" />
+            <Chip
+              label={selectedDataset.domain}
+              size="small"
+              variant="outlined"
+            />
           </Stack>
-        </CardContent>
-      </Card>
-    </Paper>
+        </Box>
+
+        <Box>
+          <Typography variant="subtitle2" color="text.secondary" gutterBottom>
+            Dataset Size
+          </Typography>
+          <Stack spacing={0.5}>
+            <Typography variant="body2">
+              <strong>Rows:</strong> {selectedDataset.rowCount.toLocaleString()}
+            </Typography>
+            <Typography variant="body2">
+              <strong>Columns:</strong> {selectedDataset.columnCount}
+            </Typography>
+            <Typography variant="body2">
+              <strong>File Size:</strong>{' '}
+              {formatFileSize(selectedDataset.fileSize)}
+            </Typography>
+          </Stack>
+        </Box>
+
+        <Box>
+          <Typography variant="subtitle2" color="text.secondary" gutterBottom>
+            Data Quality
+          </Typography>
+          <Stack spacing={0.5}>
+            <Typography variant="body2">
+              <strong>Quality Score:</strong>{' '}
+              {Math.round(selectedDataset.quality_score * 100)}%
+            </Typography>
+            <Typography variant="body2">
+              <strong>Completeness:</strong> {selectedDataset.completeness}%
+            </Typography>
+          </Stack>
+        </Box>
+
+        <Box>
+          <Typography variant="subtitle2" color="text.secondary" gutterBottom>
+            Last Modified
+          </Typography>
+          <Typography variant="body2">
+            {new Date(selectedDataset.lastModified).toLocaleDateString()}
+          </Typography>
+        </Box>
+      </Stack>
+    </Surface>
   );
 };
