@@ -59,7 +59,11 @@ Start up the app:
 npm start
 ```
 
-Open [http://localhost:5175](http://localhost:5175) to view the app in the browser.
+By default, the app will run on [http://localhost:5175](http://localhost:5175). If port 5175 is already in use, the server will automatically find the next available port. You can also specify a custom port by setting the `VITE_PORT` environment variable:
+
+```
+VITE_PORT=3000 npm start
+```
 
 Begin modifying the templates in `src/pages`.
 

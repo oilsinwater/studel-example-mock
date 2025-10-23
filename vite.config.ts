@@ -11,8 +11,8 @@ export default defineConfig(({ mode }) => {
     plugins: [TanStackRouterVite({ autoCodeSplitting: true }), react()],
     base: env.VITE_BASE_URL,
     server: {
-      port: 5175,
-      strictPort: true,
+      port: parseInt(env.VITE_PORT) || 5175,
+      strictPort: false, // Allow fallback to next available port if 5175 is busy
     },
   };
 });
