@@ -1,77 +1,127 @@
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import AddIcon from '@mui/icons-material/Add';
 import {
   AppBar,
+  Box,
+  Button,
   IconButton,
   Stack,
   Toolbar,
   Typography,
-  Box,
-  Button,
 } from '@mui/material';
 import React from 'react';
-import { cleanPath } from '../utils/queryParams.utils';
 import { AppLink } from './AppLink';
-import { ImageWrapper } from './ImageWrapper';
 
 /**
  * Top navigation bar component
  */
 export const TopBar: React.FC = () => {
+  const navItems = [
+    { label: 'Home', to: '/' },
+    { label: 'Workflows', to: '/explore-data' },
+    { label: 'Benchmarks', to: '/quality-benchmark' },
+    { label: 'Computation', to: '/run-computation' },
+  ];
+
   return (
     <AppBar
-      color="default"
       position="static"
       component="nav"
       sx={{
-        backgroundColor: 'white',
-        borderBottom: '1px solid',
-        borderBottomColor: 'grey.300',
-        boxShadow: 'none',
+        backgroundColor: 'transparent',
       }}
     >
-      <Toolbar>
+      <Toolbar
+        sx={{
+          gap: 4,
+          flexWrap: { xs: 'wrap', sm: 'nowrap' },
+          justifyContent: 'space-between',
+        }}
+      >
         <Stack
           direction="row"
-          sx={{
-            alignItems: 'center',
-            flexGrow: 1,
-          }}
+          spacing={2}
+          alignItems="center"
+          sx={{ flexWrap: 'wrap', gap: 1.5 }}
         >
-          <AppLink to="/">
-            <ImageWrapper height={30}>
-              <img
-                src={cleanPath(
-                  `${import.meta.env.BASE_URL}/strudel-logo-icon.png`
-                )}
-              />
-            </ImageWrapper>
-          </AppLink>
-          <AppLink to="/">
-            <Typography variant="h6" component="div" fontWeight="bold">
-              SciData Hub
-            </Typography>
-          </AppLink>
+          <Typography
+            variant="subtitle1"
+            component="span"
+            sx={{
+              fontWeight: 500,
+              letterSpacing: '0.14em',
+              textTransform: 'uppercase',
+            }}
+          >
+            SciData Hub
+          </Typography>
+          <Typography
+            variant="body2"
+            component="span"
+            color="text.secondary"
+            sx={{ display: { xs: 'none', sm: 'inline' } }}
+          >
+            /
+          </Typography>
+          <Box
+            component="nav"
+            sx={{
+              display: 'flex',
+              gap: 1.5,
+              flexWrap: 'wrap',
+            }}
+          >
+            {navItems.map((item) => (
+              <AppLink
+                key={item.to}
+                to={item.to}
+                preload="intent"
+                color="inherit"
+                underline="none"
+              >
+                <Typography
+                  variant="body2"
+                  sx={{
+                    color: 'text.secondary',
+                    transition: 'color 0.2s ease',
+                    '&:hover': { color: 'text.primary' },
+                  }}
+                >
+                  {item.label}
+                </Typography>
+              </AppLink>
+            ))}
+          </Box>
         </Stack>
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-          <AppLink to="/explore-data">
-            <Button color="inherit" sx={{ textTransform: 'none' }}>
-              Explore Data
-            </Button>
-          </AppLink>
-          <AppLink to="/quality-benchmark">
-            <Button color="inherit" sx={{ textTransform: 'none' }}>
-              Quality Benchmark
-            </Button>
-          </AppLink>
-          <AppLink to="/run-computation">
-            <Button color="inherit" sx={{ textTransform: 'none' }}>
-              Run Computation
-            </Button>
-          </AppLink>
-          <IconButton size="large" edge="start" color="inherit">
-            <AccountCircleIcon />
+        <Stack
+          direction="row"
+          spacing={1.5}
+          alignItems="center"
+          sx={{ flexShrink: 0 }}
+        >
+          <Button
+            size="small"
+            color="neutral"
+            startIcon={<AddIcon sx={{ fontSize: 16 }} />}
+          >
+            New Workspace
+          </Button>
+          <IconButton
+            size="small"
+            edge="end"
+            color="inherit"
+            sx={{
+              backgroundColor: 'rgba(255,255,255,0.06)',
+              border: '1px solid',
+              borderColor: 'divider',
+              '&:hover': {
+                backgroundColor: 'rgba(255,255,255,0.12)',
+              },
+            }}
+          >
+            <AccountCircleIcon fontSize="small" />
           </IconButton>
-        </Box>
+        </Stack>
       </Toolbar>
     </AppBar>
   );

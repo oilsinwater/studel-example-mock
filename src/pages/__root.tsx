@@ -11,6 +11,8 @@ export const Route = createRootRoute({
       spacing={0}
       sx={{
         height: '100%',
+        backgroundColor: 'background.default',
+        color: 'text.primary',
       }}
     >
       <TopBar />
@@ -18,7 +20,8 @@ export const Route = createRootRoute({
         component="main"
         sx={{
           flex: 1,
-          paddingBottom: 4,
+          paddingBottom: 6,
+          px: { xs: 2, sm: 4, md: 6 },
         }}
       >
         <Outlet />
