@@ -4,10 +4,10 @@ import {
   InputLabel,
   Select,
   MenuItem,
-  Paper,
   Typography,
 } from '@mui/material';
 import { Model } from '../-config/taskflow.types';
+import { Surface } from '../../../components/Surface';
 
 interface ModelSelectorProps {
   models: Model[];
@@ -21,9 +21,14 @@ export const ModelSelector: React.FC<ModelSelectorProps> = ({
   onSelect,
 }) => {
   return (
-    <Paper sx={{ p: 2 }} data-testid="rc-model-selector">
-      <Typography variant="h6" gutterBottom>
-        Model
+    <Surface
+      dense
+      title="Model"
+      eyebrow="Simulation engine"
+      data-testid="rc-model-selector"
+    >
+      <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
+        Choose the computational model to run against the selected dataset.
       </Typography>
       <FormControl fullWidth>
         <InputLabel>Select a model</InputLabel>
@@ -42,6 +47,6 @@ export const ModelSelector: React.FC<ModelSelectorProps> = ({
           ))}
         </Select>
       </FormControl>
-    </Paper>
+    </Surface>
   );
 };

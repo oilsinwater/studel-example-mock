@@ -1,7 +1,8 @@
 import React from 'react';
-import { Box, Button, Stack } from '@mui/material';
+import { Button, Stack } from '@mui/material';
 import { createFileRoute, useNavigate } from '@tanstack/react-router';
 import { PageHeader } from '../../../components/PageHeader';
+import { Surface } from '../../../components/Surface';
 import { useRunComputationContext } from '../-context/ContextProvider';
 import { RunHistoryTable } from '../-components/RunHistoryTable';
 import { runComputationConfig } from '../-config/taskflow.config';
@@ -23,13 +24,18 @@ function RunComputationIndex() {
   };
 
   return (
-    <Stack spacing={3}>
+    <Stack spacing={4}>
       <PageHeader
         pageTitle={runComputationConfig.title}
         description="Select a process dataset, choose a simulation model, configure its parameters, and execute a computation. Monitor the run and analyze the resulting output data."
       />
       <RunHistoryTable runs={state.runs} onRowClick={handleRowClick} />
-      <Box>
+      <Surface
+        dense
+        eyebrow="Create"
+        title="Launch a new computation"
+        sx={{ alignItems: 'flex-start' }}
+      >
         <Button
           variant="contained"
           onClick={handleNewRun}
@@ -37,7 +43,7 @@ function RunComputationIndex() {
         >
           New Run
         </Button>
-      </Box>
+      </Surface>
     </Stack>
   );
 }

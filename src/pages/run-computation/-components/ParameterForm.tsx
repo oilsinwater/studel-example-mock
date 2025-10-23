@@ -1,6 +1,7 @@
 import React from 'react';
-import { Paper, Stack, TextField, Typography } from '@mui/material';
+import { Stack, TextField, Typography } from '@mui/material';
 import { Model } from '../-config/taskflow.types';
+import { Surface } from '../../../components/Surface';
 
 interface ParameterFormProps {
   model: Model | undefined;
@@ -19,9 +20,11 @@ export const ParameterForm: React.FC<ParameterFormProps> = ({
 
   if (!model) {
     return (
-      <Paper
+      <Surface
+        dense
+        title="Parameters"
+        eyebrow="Model configuration"
         sx={{
-          p: 2,
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
@@ -29,18 +32,20 @@ export const ParameterForm: React.FC<ParameterFormProps> = ({
         }}
         data-testid="rc-parameter-form"
       >
-        <Typography color="textSecondary">
+        <Typography color="text.secondary">
           Select a model to configure its parameters.
         </Typography>
-      </Paper>
+      </Surface>
     );
   }
 
   return (
-    <Paper sx={{ p: 2 }} data-testid="rc-parameter-form">
-      <Typography variant="h6" gutterBottom>
-        Parameters
-      </Typography>
+    <Surface
+      dense
+      title="Parameters"
+      eyebrow={`Inputs for ${model.name}`}
+      data-testid="rc-parameter-form"
+    >
       <Stack spacing={2}>
         {model.parameters.map((param) => (
           <TextField
@@ -52,6 +57,6 @@ export const ParameterForm: React.FC<ParameterFormProps> = ({
           />
         ))}
       </Stack>
-    </Paper>
+    </Surface>
   );
 };

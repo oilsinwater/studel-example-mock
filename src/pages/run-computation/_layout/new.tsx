@@ -1,7 +1,8 @@
 import React, { useCallback } from 'react';
-import { Box, Button, Grid, Stack } from '@mui/material';
+import { Button, Grid, Stack } from '@mui/material';
 import { createFileRoute, useNavigate } from '@tanstack/react-router';
 import { PageHeader } from '../../../components/PageHeader';
+import { Surface } from '../../../components/Surface';
 import { useRunComputationContext } from '../-context/ContextProvider';
 import { DatasetSelector } from '../-components/DatasetSelector';
 import { ModelSelector } from '../-components/ModelSelector';
@@ -60,8 +61,12 @@ function NewComputationRun() {
   );
 
   return (
-    <Stack spacing={3}>
-      <PageHeader pageTitle="New Computation Run" />
+    <Stack spacing={4}>
+      <PageHeader
+        pageTitle="New Computation Run"
+        breadcrumbTitle="Computation"
+        description="Select your inputs, fine-tune parameters, and launch the simulation."
+      />
       <Grid container spacing={3}>
         <Grid item xs={12} md={4}>
           <Stack spacing={3}>
@@ -84,7 +89,12 @@ function NewComputationRun() {
           />
         </Grid>
       </Grid>
-      <Box>
+      <Surface
+        dense
+        eyebrow="Execute"
+        title="Run the computation"
+        sx={{ alignItems: 'flex-start' }}
+      >
         <Button
           variant="contained"
           data-testid="rc-run-button"
@@ -95,7 +105,7 @@ function NewComputationRun() {
         >
           {state.loading ? 'Running...' : 'Run Computation'}
         </Button>
-      </Box>
+      </Surface>
     </Stack>
   );
 }

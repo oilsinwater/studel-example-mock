@@ -1,7 +1,8 @@
 import React from 'react';
 import { DataGrid, GridColDef, GridRowParams } from '@mui/x-data-grid';
-import { Paper, Chip } from '@mui/material';
+import { Chip } from '@mui/material';
 import { Run } from '../-config/taskflow.types';
+import { Surface } from '../../../components/Surface';
 
 interface RunHistoryTableProps {
   runs: Run[];
@@ -45,7 +46,17 @@ export const RunHistoryTable: React.FC<RunHistoryTableProps> = ({
   };
 
   return (
-    <Paper sx={{ height: 600, width: '100%' }} data-testid="rc-history-table">
+    <Surface
+      eyebrow="Recent runs"
+      title="Run history"
+      sx={{
+        height: 600,
+        width: '100%',
+        display: 'flex',
+        flexDirection: 'column',
+      }}
+      data-testid="rc-history-table"
+    >
       <DataGrid
         rows={runs}
         columns={columns}
@@ -56,8 +67,8 @@ export const RunHistoryTable: React.FC<RunHistoryTableProps> = ({
             sortModel: [{ field: 'createdAt', sort: 'desc' }],
           },
         }}
-        sx={{ cursor: 'pointer' }}
+        sx={{ cursor: 'pointer', flex: 1 }}
       />
-    </Paper>
+    </Surface>
   );
 };

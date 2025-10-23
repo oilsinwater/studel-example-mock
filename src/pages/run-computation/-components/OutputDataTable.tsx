@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
-import { Paper, Typography } from '@mui/material';
+import { Typography } from '@mui/material';
 import { csv } from 'd3-fetch';
+import { Surface } from '../../../components/Surface';
 
 interface OutputDataTableProps {
   resultsPath: string | null;
@@ -45,11 +46,21 @@ export const OutputDataTable: React.FC<OutputDataTableProps> = ({
   }
 
   return (
-    <Paper sx={{ height: 400, width: '100%' }} data-testid="rc-output-table">
-      <Typography variant="h6" sx={{ p: 2 }}>
-        Output Data
+    <Surface
+      eyebrow="Results table"
+      title="Output data"
+      sx={{
+        height: 400,
+        width: '100%',
+        display: 'flex',
+        flexDirection: 'column',
+      }}
+      data-testid="rc-output-table"
+    >
+      <Typography variant="body2" color="text.secondary">
+        View the processed rows produced by this run.
       </Typography>
-      <DataGrid rows={rows} columns={columns} />
-    </Paper>
+      <DataGrid rows={rows} columns={columns} sx={{ flex: 1 }} />
+    </Surface>
   );
 };

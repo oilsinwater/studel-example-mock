@@ -1,6 +1,7 @@
 import React from 'react';
-import { Paper, Typography, Stack, Chip } from '@mui/material';
+import { Typography, Stack, Chip } from '@mui/material';
 import { Run } from '../-config/taskflow.types';
+import { Surface } from '../../../components/Surface';
 
 interface ResultsSummaryProps {
   run: Run | undefined;
@@ -12,10 +13,12 @@ export const ResultsSummary: React.FC<ResultsSummaryProps> = ({ run }) => {
   }
 
   return (
-    <Paper sx={{ p: 2 }} data-testid="rc-results-summary">
-      <Typography variant="h6" gutterBottom>
-        Run Summary
-      </Typography>
+    <Surface
+      dense
+      title="Run summary"
+      eyebrow="Execution details"
+      data-testid="rc-results-summary"
+    >
       <Stack spacing={1}>
         <Typography>
           <strong>Run ID:</strong> {run.runId}
@@ -44,6 +47,6 @@ export const ResultsSummary: React.FC<ResultsSummaryProps> = ({ run }) => {
           </Typography>
         )}
       </Stack>
-    </Paper>
+    </Surface>
   );
 };

@@ -4,11 +4,11 @@ import {
   InputLabel,
   Select,
   MenuItem,
-  Paper,
   Typography,
 } from '@mui/material';
 import { csv } from 'd3-fetch';
 import { runComputationConfig } from '../-config/taskflow.config';
+import { Surface } from '../../../components/Surface';
 
 interface DatasetSelectorProps {
   selectedDatasetId: string | null;
@@ -36,9 +36,14 @@ export const DatasetSelector: React.FC<DatasetSelectorProps> = ({
   }, []);
 
   return (
-    <Paper sx={{ p: 2 }} data-testid="rc-dataset-selector">
-      <Typography variant="h6" gutterBottom>
-        Dataset
+    <Surface
+      dense
+      title="Dataset"
+      eyebrow="Input selection"
+      data-testid="rc-dataset-selector"
+    >
+      <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
+        Choose the process dataset you want to simulate against.
       </Typography>
       <FormControl fullWidth>
         <InputLabel>Select a dataset</InputLabel>
@@ -57,6 +62,6 @@ export const DatasetSelector: React.FC<DatasetSelectorProps> = ({
           ))}
         </Select>
       </FormControl>
-    </Paper>
+    </Surface>
   );
 };
