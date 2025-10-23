@@ -10,6 +10,7 @@ import { useRunComputationContext } from '../../-context/ContextProvider';
 import { ResultsSummary } from '../../-components/ResultsSummary';
 import { OutputDataTable } from '../../-components/OutputDataTable';
 import { OutputChart } from '../../-components/OutputChart';
+import { Surface } from '../../../../components/Surface';
 
 export const Route = createFileRoute('/run-computation/_layout/results/$runId')(
   {
@@ -36,19 +37,30 @@ function ComputationResults() {
   };
 
   return (
-    <Stack spacing={3}>
-      <PageHeader pageTitle={`Results for ${runId}`} />
+    <Stack spacing={4}>
+      <PageHeader
+        pageTitle={`Results for ${runId}`}
+        breadcrumbTitle="Computation"
+        description="Inspect the output of your simulation run and optionally route the data to other flows."
+      />
       <ResultsSummary run={run} />
       <OutputChart resultsPath={run?.resultsPath || null} />
       <OutputDataTable resultsPath={run?.resultsPath || null} />
-      <Button
-        variant="contained"
-        onClick={handleExploreOutput}
-        disabled={!run?.resultsPath || run?.status !== 'completed'}
-        data-testid="rc-explore-output-button"
+      <Surface
+        dense
+        eyebrow="Next step"
+        title="Send output to Explore Data"
+        sx={{ alignItems: 'flex-start' }}
       >
-        Explore Output Dataset
-      </Button>
+        <Button
+          variant="contained"
+          onClick={handleExploreOutput}
+          disabled={!run?.resultsPath || run?.status !== 'completed'}
+          data-testid="rc-explore-output-button"
+        >
+          Explore Output Dataset
+        </Button>
+      </Surface>
     </Stack>
   );
 }
