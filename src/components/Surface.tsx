@@ -38,7 +38,7 @@ export const Surface: React.FC<SurfaceProps> = ({
           backdropFilter: 'blur(16px)',
           display: 'flex',
           flexDirection: 'column',
-          gap: dense ? 2 : 3,
+          minHeight: 0,
         },
         ...(Array.isArray(sx) ? sx : sx ? [sx] : []),
       ]}
@@ -48,7 +48,7 @@ export const Surface: React.FC<SurfaceProps> = ({
           direction="row"
           spacing={2}
           alignItems="flex-start"
-          sx={{ mb: children ? (dense ? 1.5 : 2.5) : 0 }}
+          sx={{ mb: children ? (dense ? 2.5 : 3.5) : 0 }}
         >
           <Stack spacing={0.75} sx={{ flex: 1 }}>
             {eyebrow ? (

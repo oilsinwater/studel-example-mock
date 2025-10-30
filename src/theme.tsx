@@ -161,7 +161,7 @@ export const theme = createTheme({
     MuiButton: {
       styleOverrides: {
         root: {
-          borderRadius: 999,
+          borderRadius: 10,
           paddingInline: '1.25rem',
           paddingBlock: '0.45rem',
         },
@@ -176,7 +176,7 @@ export const theme = createTheme({
             backgroundColor: '#1b1b1d',
             border: '1px solid #2a2a2d',
             color: '#f5f5f5',
-            borderRadius: 999,
+            borderRadius: 10,
             '&:hover': {
               backgroundColor: '#222225',
             },
@@ -209,7 +209,7 @@ export const theme = createTheme({
         root: {
           backgroundColor: '#161617',
           border: '1px solid #222226',
-          borderRadius: 10,
+          borderRadius: 8,
         },
       },
     },
@@ -217,7 +217,7 @@ export const theme = createTheme({
       styleOverrides: {
         root: {
           backgroundColor: '#111113',
-          borderRadius: 12,
+          borderRadius: 8,
           '& .MuiOutlinedInput-notchedOutline': {
             borderColor: '#262629',
           },
