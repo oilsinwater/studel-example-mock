@@ -1,23 +1,29 @@
-# STRUDEL Kit
+# STRUDEL Example: Scientific Data Visualization
 
-STRUDEL Kit is a React and TypeScript-based starter kit for building scientific UIs based on the STRUDEL Design System and Task Flows. Visit [strudel.science](https://strudel.science) for more information about the STRUDEL project.
+This repository demonstrates the STRUDEL Design System applied to scientific data visualization workflows. It showcases how to implement UI templates for common scientific task flows with a focus on data exploration, quality benchmarking, and computational analysis.
 
-This library provides a suite of templates to implement UIs for various different task flows common to the scientific domain. The app is intended to be used as a starting point for building out a modern single-page web app for scientific-type UIs.
+## Project Overview
 
-[Browse the full docs](https://strudel.science/strudel-kit/docs/)
+The STRUDEL Example Mock Charts project provides a practical implementation of the STRUDEL framework, featuring:
 
-## What's included?
+- **Dataset Exploration**: Browse, filter, and preview scientific datasets with interactive visualizations
+- **Quality Benchmarking**: Compare data readiness scores, anomaly rates, and drift metrics
+- **Computational Workflows**: Execute process simulations and computational models on datasets
+- **Modern UI/UX**: Clean, scientific-focused interface built with React and Material UI
 
-- [**React**](https://react.dev/): A component-based JavaScript library for building UIs.
-- [**TypeScript**](https://www.typescriptlang.org/): A typed superset of JavaScript that compiles to plain JavaScript.
-- [**Vite**](https://vite.dev/): A fast, opinionated frontend build tool.
-- [**Material UI**](https://mui.com/material-ui/getting-started/): Open-source React component library based on Google's Material Design.
-- [**TanStack Router**](https://tanstack.com/router/latest): A fully type-safe router with built-in data fetching, first-class search-param APIs, and more.
-- [**ESLint**](https://eslint.org/): The pluggable linting utility for JavaScript and JSX.
-- [**Prettier**](https://prettier.io/): An opinionated code formatter.
-- [**Husky**](https://typicode.github.io/husky/): Runs a pre-commit hook to lint and style staged code.
-- [**Cypress**](https://www.cypress.io/): End-to-end tests for built-in templates.
-- [**Task Flow Templates**](https://strudel.science/design-system/task-flows/overview/): Six template flows based on common patterns.
+## Technologies Used
+
+- [**React**](https://react.dev/): Component-based JavaScript library for building UIs
+- [**TypeScript**](https://www.typescriptlang.org/): Typed superset of JavaScript for enhanced safety
+- [**Vite**](https://vite.dev/): Fast frontend build tool
+- [**Material UI**](https://mui.com/material-ui/getting-started/): React component library based on Material Design
+- [**TanStack Router**](https://tanstack.com/router/latest): Type-safe router with data fetching capabilities
+- [**Plotly.js**](https://plotly.com/javascript/): Interactive graphing library for scientific visualizations
+- [**D3**](https://d3js.org/): Data visualization library for advanced charting
+- [**ESLint**](https://eslint.org/): Pluggable linting utility for JavaScript and JSX
+- [**Prettier**](https://prettier.io/): Code formatter for consistent style
+
+## Screenshots
 
 ![Home page](images/home.png)
 
@@ -25,61 +31,97 @@ This library provides a suite of templates to implement UIs for various differen
 
 ## Getting Started
 
-### Option 1: Use this template
+### Prerequisites
 
-Click the green "Use this template" button on the [strudel-kit GitHub page](https://github.com/strudel-science/strudel-kit). Create your own repository from the strudel-kit code and give it a name.
+- Node.js (version ^18.18.0 || >=20.0.0)
+- npm
 
-Clone the strudel-kit repository from your new repo.
+### Installation
 
-### Option 2: degit
+1. Clone the repository:
 
-Generate a new project from strudel-kit using [degit](https://github.com/Rich-Harris/degit):
+   ```
+   git clone https://github.com/sprblm/studel-example-mock.git
+   cd studel-example-mock
+   ```
+
+2. Install dependencies:
+
+   ```
+   npm install
+   ```
+
+3. Start the development server:
+
+   ```
+   npm start
+   ```
+
+   Or alternatively:
+
+   ```
+   npm run dev
+   ```
+
+4. Open your browser to [http://localhost:5175](http://localhost:5175) (or the next available port)
+
+### Environment Configuration
+
+Create a `.env` file in the root directory based on the `.env.example` file to customize your environment variables:
 
 ```
-npx degit strudel-science/strudel-kit my-app
+VITE_PORT=5175
+VITE_BASE_URL=/
 ```
 
-### Option 3: Fork this repo
-
-Especially if you want to contribute back, you can click the Fork button to create a fork of this repo from the [strudel-kit GitHub page](https://github.com/strudel-science/strudel-kit).
-
-Clone the strudel-kit repository from your new fork.
-
-### Install and Start
-
-Install the dependencies:
+## Project Structure
 
 ```
-npm install
+src/
+├── components/        # Reusable UI components
+├── context/          # React context providers
+├── hooks/            # Custom React hooks
+├── pages/            # Page components (routes)
+│   ├── explore-data/    # Dataset exploration flow
+│   ├── quality-benchmark/ # Quality assessment flow
+│   └── run-computation/   # Computational workflow flow
+├── types/            # TypeScript type definitions
+├── utils/            # Utility functions
+├── App.tsx          # Main application component
+├── theme.tsx        # Material UI theme configuration
+└── main.tsx         # Application entry point
 ```
 
-Start up the app:
+## Available Scripts
 
-```
-npm start
-```
+- `npm start` or `npm run dev` - Start development server
+- `npm run build` - Build for production
+- `npm run preview` - Preview production build locally
+- `npm run lint` - Check code for linting errors
+- `npm run lint:fix` - Automatically fix linting errors
+- `npm run prettier` - Check code formatting
+- `npm run prettier:fix` - Automatically format code
+- `npm run style:all` - Run type checking, linting, and formatting
+- `npm run cy:test` - Run Cypress end-to-end tests
+- `npm run cy:open` - Open Cypress test runner
+- `npm run deploy` - Deploy to GitHub Pages
 
-By default, the app will run on [http://localhost:5175](http://localhost:5175). If port 5175 is already in use, the server will automatically find the next available port. You can also specify a custom port by setting the `VITE_PORT` environment variable:
+## Task Flows
 
-```
-VITE_PORT=3000 npm start
-```
+The application implements three primary scientific task flows:
 
-Begin modifying the templates in `src/pages`.
+1. **Explore Data**: Browse, filter, and preview scientific datasets with interactive visualizations
+2. **Quality Benchmark**: Compare data readiness scores, anomaly rates, and drift metrics across laboratory datasets
+3. **Run Computation**: Execute process simulations and computational models on your datasets with collaborative presets
 
-## Contributions
+## Contributing
 
-STRUDEL Kit welcomes contributions of all kinds! Learn how to submit suggestions and changes in [CONTRIBUTING.md](https://github.com/strudel-science/strudel-kit/blob/main/CONTRIBUTING.md).
+We welcome contributions! Please read our [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines on how to contribute to this project.
 
 ## License
 
-This software is licensed through the [Lawrence Berkeley National Lab](https://www.lbl.gov/) and can be used, modified, and shared at absolutely no cost. [Read the full license](https://github.com/strudel-science/strudel-kit/blob/main/LICENSE).
+This project is licensed under the terms found in the [LICENSE](LICENSE) file.
 
-## Attribution
+## Acknowledgments
 
-We kindly ask that you take two steps to attribute this repo if you find it useful to your work:
-
-1. Give us a star on our GitHub Page
-2. Credit the STRUDEL project and strudel-kit repo in your README.
-
-> This project utilized the [strudel-kit](https://github.com/strudel-science/strudel-kit/tree/main) repository. Read more about [STRUDEL](https://strudel.science).
+This project builds upon the STRUDEL Design System for scientific UIs. For more information about STRUDEL, visit [strudel.science](https://strudel.science).
