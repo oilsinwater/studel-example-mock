@@ -30,11 +30,11 @@ export const TrendMiniCharts: React.FC<TrendMiniChartsProps> = ({
   metric,
 }) => {
   return (
-    <Grid container spacing={2}>
+    <Grid container spacing={{ xs: 2.5, md: 3 }}>
       {rows.slice(0, 4).map((row) => (
         <Grid item xs={12} sm={6} key={row.id}>
           <Card variant="outlined">
-            <CardContent>
+            <CardContent sx={{ p: { xs: 3, md: 3.5 } }}>
               <Typography variant="subtitle2" gutterBottom>
                 {row.id}
               </Typography>

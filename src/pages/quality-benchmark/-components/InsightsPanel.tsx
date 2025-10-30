@@ -29,7 +29,14 @@ export const InsightsPanel: React.FC<InsightsPanelProps> = ({
 
   return (
     <Card data-testid="qb-insights">
-      <CardContent>
+      <CardContent
+        sx={{
+          p: { xs: 3, md: 3.5 },
+          display: 'flex',
+          flexDirection: 'column',
+          gap: 2.5,
+        }}
+      >
         <Typography variant="h6" gutterBottom>
           Insights
         </Typography>
@@ -37,9 +44,9 @@ export const InsightsPanel: React.FC<InsightsPanelProps> = ({
           Highlighted metrics relative to baseline{' '}
           <strong>{baselineRow.id}</strong>.
         </Typography>
-        <List dense>
+        <List sx={{ display: 'flex', flexDirection: 'column', gap: 1.5, m: 0 }}>
           {topInsights.map((row) => (
-            <ListItem key={row.id} sx={{ display: 'block' }}>
+            <ListItem key={row.id} sx={{ display: 'block', px: 0 }}>
               <Typography variant="subtitle2">{row.id}</Typography>
               <Typography variant="caption" color="text.secondary">
                 Quality +

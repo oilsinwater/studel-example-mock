@@ -22,7 +22,7 @@ export const SelectionSummary: React.FC<SelectionSummaryProps> = ({
       eyebrow="Benchmark state"
       data-testid="qb-selection-summary"
     >
-      <Stack spacing={1.5}>
+      <Stack spacing={2}>
         <Typography variant="body2" color="text.secondary">
           Choose at least two datasets to unlock comparison metrics. The
           baseline anchors delta calculations across charts.

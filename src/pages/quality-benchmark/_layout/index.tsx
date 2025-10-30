@@ -81,7 +81,7 @@ export function QualityBenchmarkIndexPage() {
   };
 
   return (
-    <Stack spacing={4} sx={{ py: 3 }}>
+    <Stack spacing={{ xs: 4.5, md: 5.5 }} sx={{ py: { xs: 4, md: 6 } }}>
       <Box data-testid="qb-header">
         <PageHeader
           pageTitle={qualityBenchmarkConfig.title}
@@ -89,9 +89,9 @@ export function QualityBenchmarkIndexPage() {
         />
       </Box>
 
-      <Grid container spacing={3} sx={{ alignItems: 'stretch' }}>
+      <Grid container spacing={{ xs: 3, md: 4 }} sx={{ alignItems: 'stretch' }}>
         <Grid item xs={12} md={4} lg={3}>
-          <Stack spacing={3} sx={{ height: '100%' }}>
+          <Stack spacing={{ xs: 3, md: 3.5 }} sx={{ height: '100%' }}>
             <SelectionSummary
               originFlow={state.originFlow}
               selectedIds={state.selectedIds}
@@ -121,7 +121,7 @@ export function QualityBenchmarkIndexPage() {
         </Grid>
 
         <Grid item xs={12} md={8} lg={9}>
-          <Stack spacing={3} sx={{ height: '100%' }}>
+          <Stack spacing={{ xs: 3, md: 3.5 }} sx={{ height: '100%' }}>
             <Box sx={{ flex: 1 }}>
               <DatasetPicker
                 rows={state.benchmarkRows}
@@ -132,7 +132,7 @@ export function QualityBenchmarkIndexPage() {
             <Surface dense eyebrow="Compare" title="Run benchmark actions">
               <Stack
                 direction={{ xs: 'column', sm: 'row' }}
-                spacing={2}
+                spacing={{ xs: 2.5, sm: 3 }}
                 sx={{ alignItems: { sm: 'center' } }}
               >
                 <Button

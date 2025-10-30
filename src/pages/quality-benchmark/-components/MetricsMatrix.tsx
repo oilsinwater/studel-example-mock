@@ -16,15 +16,21 @@ export const MetricsMatrix: React.FC<MetricsMatrixProps> = ({
   onRowClick,
 }) => {
   return (
-    <Paper sx={{ height: '100%' }}>
-      <Box sx={{ p: 2, borderBottom: 1, borderColor: 'divider' }}>
+    <Paper sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
+      <Box
+        sx={{
+          p: { xs: 3, md: 3.5 },
+          borderBottom: 1,
+          borderColor: 'divider',
+        }}
+      >
         <Typography variant="h6">Comparison Matrix</Typography>
         <Typography variant="caption" color="text.secondary">
           Baseline rows are highlighted; click any row to open a detailed
           report.
         </Typography>
       </Box>
-      <Box sx={{ height: 'calc(100% - 72px)' }} data-testid="qb-matrix">
+      <Box sx={{ flex: 1 }} data-testid="qb-matrix">
         <DataGrid
           rows={rows}
           columns={qualityBenchmarkConfig.columns}

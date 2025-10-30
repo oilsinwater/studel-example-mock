@@ -86,8 +86,8 @@ function QualityBenchmarkCompare() {
   };
 
   return (
-    <Box sx={{ p: 3 }}>
-      <Stack spacing={2}>
+    <Box sx={{ py: { xs: 4, md: 6 }, px: { xs: 2, md: 3.5 } }}>
+      <Stack spacing={{ xs: 2.5, md: 3 }}>
         <Breadcrumbs>
           <Link component={RouterLink} to="/explore-data" underline="hover">
             Explore Data
@@ -101,7 +101,7 @@ function QualityBenchmarkCompare() {
           />
         </Box>
 
-        <Stack direction="row" spacing={2} alignItems="center">
+        <Stack direction="row" spacing={{ xs: 2, md: 2.5 }} alignItems="center">
           <Typography variant="body2">Baseline dataset:</Typography>
           <ToggleButtonGroup
             value={state.baselineId}
@@ -118,7 +118,7 @@ function QualityBenchmarkCompare() {
           </ToggleButtonGroup>
         </Stack>
 
-        <Grid container spacing={3}>
+        <Grid container spacing={{ xs: 3, md: 4 }}>
           <Grid item xs={12} md={8}>
             <MetricsMatrix
               rows={comparisonRows}
@@ -131,7 +131,7 @@ function QualityBenchmarkCompare() {
               baselineRow={baselineRow}
               comparisonRows={comparisonRows}
             />
-            <Stack spacing={2} sx={{ mt: 2 }}>
+            <Stack spacing={2.5} sx={{ mt: 3 }}>
               <Button
                 data-testid="view-report"
                 variant="contained"
@@ -160,7 +160,7 @@ function QualityBenchmarkCompare() {
           metric={state.highlightedMetric}
         />
 
-        <Stack direction="row" spacing={1} alignItems="center">
+        <Stack direction="row" spacing={2} alignItems="center">
           <Typography variant="body2">Highlight metric:</Typography>
           <ToggleButtonGroup
             exclusive

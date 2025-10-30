@@ -49,12 +49,13 @@ function QualityBenchmarkReport() {
   };
 
   return (
-    <Box sx={{ p: 3 }}>
-      <Stack spacing={3}>
+    <Box sx={{ py: { xs: 4, md: 6 }, px: { xs: 2, md: 3.5 } }}>
+      <Stack spacing={{ xs: 3, md: 3.5 }}>
         <Stack
           direction="row"
           justifyContent="space-between"
           alignItems="center"
+          spacing={2}
         >
           <Button variant="text" onClick={handleBack}>
             ← Back to Compare
@@ -73,11 +74,11 @@ function QualityBenchmarkReport() {
         />
 
         {row ? (
-          <Paper sx={{ p: 3 }}>
+          <Paper sx={{ p: { xs: 3, md: 3.5 } }}>
             <Typography variant="h6" gutterBottom>
               Current Snapshot
             </Typography>
-            <Grid container spacing={2}>
+            <Grid container spacing={{ xs: 2.5, md: 3 }}>
               <Grid item xs={12} sm={6} md={3}>
                 <StatBlock
                   label="Quality Score"
@@ -105,7 +106,7 @@ function QualityBenchmarkReport() {
 
         <HistoryTimeline entries={history} />
 
-        <Paper sx={{ p: 3 }}>
+        <Paper sx={{ p: { xs: 3, md: 3.5 } }}>
           <Typography variant="h6">Anomaly Breakdown</Typography>
           <Typography variant="body2" color="text.secondary">
             Monitor anomaly counts and pressure/temperature baselines to
@@ -115,8 +116,8 @@ function QualityBenchmarkReport() {
             <Stack
               key={entry.entryId}
               direction="row"
-              spacing={2}
-              sx={{ mt: 1 }}
+              spacing={{ xs: 2, md: 2.5 }}
+              sx={{ mt: 1.5 }}
             >
               <Typography sx={{ width: 120 }}>{entry.date}</Typography>
               <Typography sx={{ width: 120 }}>
@@ -152,7 +153,7 @@ interface StatBlockProps {
 }
 
 const StatBlock: React.FC<StatBlockProps> = ({ label, value }) => (
-  <Paper variant="outlined" sx={{ p: 2 }}>
+  <Paper variant="outlined" sx={{ p: 3 }}>
     <Typography variant="caption" color="text.secondary">
       {label}
     </Typography>

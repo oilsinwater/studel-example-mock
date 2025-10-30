@@ -18,7 +18,7 @@ export const HistoryTimeline: React.FC<HistoryTimelineProps> = ({
 }) => {
   if (!entries.length) {
     return (
-      <Paper sx={{ p: 2 }}>
+      <Paper sx={{ p: { xs: 3, md: 3.5 } }}>
         <Typography variant="body2">
           No audit history available for this dataset.
         </Typography>
@@ -27,8 +27,8 @@ export const HistoryTimeline: React.FC<HistoryTimelineProps> = ({
   }
 
   return (
-    <Paper sx={{ p: 2 }} data-testid="qb-timeline">
-      <Stack spacing={2}>
+    <Paper sx={{ p: { xs: 3, md: 3.5 } }} data-testid="qb-timeline">
+      <Stack spacing={2.5}>
         <Typography variant="h6">Quality Score Timeline</Typography>
         {entries.map((entry) => (
           <Box key={entry.entryId}>
@@ -45,13 +45,13 @@ export const HistoryTimeline: React.FC<HistoryTimelineProps> = ({
             <LinearProgress
               variant="determinate"
               value={Math.min(entry.qualityScore * 100, 100)}
-              sx={{ height: 6, borderRadius: 1, my: 1 }}
+              sx={{ height: 6, borderRadius: 1.5, my: 1.5 }}
             />
             <Typography variant="caption" color="text.secondary">
               Anomalies: {entry.anomalyCount} • Outlier Columns:{' '}
               {entry.outlierColumns}
             </Typography>
-            <Divider sx={{ my: 1 }} />
+            <Divider sx={{ my: 1.5 }} />
           </Box>
         ))}
       </Stack>
