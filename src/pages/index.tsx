@@ -74,7 +74,6 @@ function Index() {
               borderColor: 'divider',
               background: `linear-gradient(135deg, ${theme.palette.grey[100]} 0%, ${theme.palette.background.paper} 100%)`,
               padding: { xs: 3.5, md: 5 },
-              boxShadow: 'inset 0 0 0 1px rgba(255,255,255,0.03)',
             }}
           >
             <Stack spacing={{ xs: 3, md: 4 }}>
@@ -110,11 +109,10 @@ function Index() {
                           flexDirection: 'column',
                           gap: 2,
                           justifyContent: 'space-between',
-                          transition: 'transform 0.3s ease, border-color 0.3s',
+                          transition: 'border-color 0.3s',
                           position: 'relative',
                           overflow: 'hidden',
                           '&:hover': {
-                            transform: 'translateY(-6px)',
                             borderColor: 'primary.main',
                           },
                         }}
