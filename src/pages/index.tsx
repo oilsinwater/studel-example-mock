@@ -51,24 +51,25 @@ function Index() {
         <Stack spacing={{ xs: 4, md: 6 }}>
           <Stack spacing={1.5} alignItems="center" textAlign="center">
             <Typography variant="overline" color="text.secondary">
-              Quiet research tools
+              Strudel Mock Charts
             </Typography>
             <Typography variant="h1" component="h1">
-              A calmer space to shape scientific insight.
+              Compose scientific task flows with confidence.
             </Typography>
             <Typography
               variant="body1"
               color="text.secondary"
               sx={{ maxWidth: '46rem' }}
             >
-              Curate datasets, benchmark quality, and launch computations with a
-              pared-back interface inspired by the quiet clarity of Are.na.
+              Explore datasets, benchmark quality, and launch computations with
+              ready-to-edit STRUDEL templates that keep the focus on analytical
+              clarity.
             </Typography>
           </Stack>
 
           <Box
             sx={{
-              borderRadius: 16,
+              borderRadius: 8,
               border: `1px solid ${theme.palette.grey[300]}`,
               borderColor: 'divider',
               background: `linear-gradient(135deg, ${theme.palette.grey[100]} 0%, ${theme.palette.background.paper} 100%)`,
@@ -99,7 +100,7 @@ function Index() {
                     >
                       <Box
                         sx={{
-                          borderRadius: 12,
+                          borderRadius: 6,
                           border: '1px solid',
                           borderColor: 'rgba(255,255,255,0.06)',
                           backgroundColor: '#0f0f11',

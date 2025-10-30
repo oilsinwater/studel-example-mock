@@ -21,6 +21,7 @@ export const Route = createRootRoute({
         sx={{
           flex: 1,
           paddingBottom: 6,
+          pt: { xs: 4, md: 6 },
           px: { xs: 2, sm: 4, md: 6 },
         }}
       >
