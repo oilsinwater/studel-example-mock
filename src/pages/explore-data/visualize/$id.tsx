@@ -218,7 +218,13 @@ const VisualizeContent: React.FC = () => {
 
   if (state.loading) {
     return (
-      <Box sx={{ p: 3, textAlign: 'center' }}>
+      <Box
+        sx={{
+          py: { xs: 4, md: 6 },
+          px: { xs: 2.5, md: 4 },
+          textAlign: 'center',
+        }}
+      >
         <Typography>Loading visualization...</Typography>
       </Box>
     );
@@ -226,16 +232,22 @@ const VisualizeContent: React.FC = () => {
 
   if (!state.currentDataset) {
     return (
-      <Box sx={{ p: 3, textAlign: 'center' }}>
+      <Box
+        sx={{
+          py: { xs: 4, md: 6 },
+          px: { xs: 2.5, md: 4 },
+          textAlign: 'center',
+        }}
+      >
         <Typography color="error">Dataset not found</Typography>
       </Box>
     );
   }
 
   return (
-    <Box sx={{ p: 3 }}>
-      <Box data-testid="ed-header" sx={{ mb: 3 }}>
-        <Stack direction="row" alignItems="center" spacing={2}>
+    <Box sx={{ py: { xs: 4, md: 6 }, px: { xs: 2, md: 3.5 } }}>
+      <Box data-testid="ed-header" sx={{ mb: 4 }}>
+        <Stack direction="row" alignItems="center" spacing={{ xs: 2, md: 2.5 }}>
           <IconButton data-testid="back-button" onClick={handleBack}>
             <ArrowBack />
           </IconButton>
@@ -248,13 +260,13 @@ const VisualizeContent: React.FC = () => {
         </Stack>
       </Box>
 
-      <Box data-testid="ed-controls" sx={{ mb: 3 }}>
+      <Box data-testid="ed-controls" sx={{ mb: 4 }}>
         <Card>
-          <CardContent>
+          <CardContent sx={{ p: { xs: 3, md: 3.5 } }}>
             <Typography variant="h6" gutterBottom>
               Chart Configuration
             </Typography>
-            <Grid container spacing={3} alignItems="center">
+            <Grid container spacing={{ xs: 3, md: 4 }} alignItems="center">
               <Grid item xs={12} sm={3}>
                 <FormControl fullWidth size="small">
                   <InputLabel>Chart Type</InputLabel>
@@ -305,7 +317,7 @@ const VisualizeContent: React.FC = () => {
                 </FormControl>
               </Grid>
               <Grid item xs={12} sm={3}>
-                <Stack direction="row" spacing={1}>
+                <Stack direction="row" spacing={{ xs: 1.5, md: 2 }}>
                   <Button startIcon={<GetApp />} size="small">
                     Export Chart
                   </Button>
@@ -319,9 +331,9 @@ const VisualizeContent: React.FC = () => {
         </Card>
       </Box>
 
-      <Grid container spacing={3}>
+      <Grid container spacing={{ xs: 3, md: 4 }}>
         <Grid item xs={12} lg={8}>
-          <Paper sx={{ p: 2, height: 600 }}>
+          <Paper sx={{ p: { xs: 3, md: 3.5 }, height: 600 }}>
             <Box data-testid="ed-chart" sx={{ width: '100%', height: '100%' }}>
               <Plot
                 data={getPlotData()}
@@ -347,12 +359,12 @@ const VisualizeContent: React.FC = () => {
         <Grid item xs={12} lg={4}>
           <Box data-testid="ed-summary">
             <Card>
-              <CardContent>
+              <CardContent sx={{ p: { xs: 3, md: 3.5 } }}>
                 <Typography variant="h6" gutterBottom>
                   Data Summary
                 </Typography>
                 {statistics && (
-                  <Stack spacing={2}>
+                  <Stack spacing={{ xs: 2.5, md: 3 }}>
                     <Box>
                       <Typography variant="subtitle2">
                         Selected Points

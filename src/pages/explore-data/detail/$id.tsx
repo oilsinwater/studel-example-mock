@@ -100,7 +100,13 @@ const DatasetDetailContent: React.FC = () => {
 
   if (state.loading) {
     return (
-      <Box sx={{ p: 3, textAlign: 'center' }}>
+      <Box
+        sx={{
+          py: { xs: 4, md: 6 },
+          px: { xs: 2, md: 3.5 },
+          textAlign: 'center',
+        }}
+      >
         <Typography>Loading dataset details...</Typography>
       </Box>
     );
@@ -108,15 +114,21 @@ const DatasetDetailContent: React.FC = () => {
 
   if (!state.currentDataset) {
     return (
-      <Box sx={{ p: 3, textAlign: 'center' }}>
+      <Box
+        sx={{
+          py: { xs: 4, md: 6 },
+          px: { xs: 2, md: 3.5 },
+          textAlign: 'center',
+        }}
+      >
         <Typography color="error">Dataset not found</Typography>
       </Box>
     );
   }
 
   return (
-    <Stack spacing={4} sx={{ py: 3 }}>
-      <Stack spacing={2} data-testid="ed-header">
+    <Stack spacing={{ xs: 4, md: 5 }} sx={{ py: { xs: 4, md: 6 } }}>
+      <Stack spacing={{ xs: 2, md: 2.5 }} data-testid="ed-header">
         <Button
           data-testid="back-button"
           onClick={handleBack}
@@ -133,7 +145,7 @@ const DatasetDetailContent: React.FC = () => {
           breadcrumbTitle="Dataset"
           description="Dataset details and sample data"
           actions={
-            <Stack direction="row" spacing={1}>
+            <Stack direction="row" spacing={{ xs: 1.5, md: 2 }}>
               <Button startIcon={<Download />} size="small" color="primary">
                 Download
               </Button>
@@ -145,7 +157,7 @@ const DatasetDetailContent: React.FC = () => {
         />
       </Stack>
 
-      <Grid container spacing={3}>
+      <Grid container spacing={{ xs: 3, md: 4 }}>
         <Grid item xs={12} md={6}>
           <Box data-testid="ed-metadata" sx={{ height: '100%' }}>
             <Surface
@@ -153,7 +165,7 @@ const DatasetDetailContent: React.FC = () => {
               eyebrow="About this dataset"
               sx={{ height: '100%' }}
             >
-              <Stack spacing={2}>
+              <Stack spacing={{ xs: 2.5, md: 3 }}>
                 <Box>
                   <Typography variant="subtitle2" color="text.secondary">
                     Description
@@ -200,7 +212,7 @@ const DatasetDetailContent: React.FC = () => {
               eyebrow="Signals"
               sx={{ height: '100%' }}
             >
-              <Stack spacing={2}>
+              <Stack spacing={{ xs: 2.5, md: 3 }}>
                 <Box>
                   <Typography variant="subtitle2" color="text.secondary">
                     Dataset dimensions

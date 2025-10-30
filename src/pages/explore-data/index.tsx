@@ -56,7 +56,7 @@ const ExploreDataContent: React.FC = () => {
   };
 
   return (
-    <Stack spacing={4} sx={{ py: 3 }}>
+    <Stack spacing={{ xs: 4, md: 5 }} sx={{ py: { xs: 4, md: 6 } }}>
       <Box data-testid="ed-header">
         <PageHeader
           pageTitle={exploreDataConfig.title}
@@ -81,7 +81,7 @@ const ExploreDataContent: React.FC = () => {
         />
       </Surface>
 
-      <Grid container spacing={3} sx={{ alignItems: 'stretch' }}>
+      <Grid container spacing={{ xs: 3, md: 4 }} sx={{ alignItems: 'stretch' }}>
         <Grid item xs={12} md={3}>
           <Box data-testid="ed-filters" sx={{ height: '100%' }}>
             <FiltersPanel />
@@ -158,7 +158,7 @@ const ExploreDataContent: React.FC = () => {
         </Grid>
 
         <Grid item xs={12} md={3}>
-          <Stack spacing={3} sx={{ height: '100%' }}>
+          <Stack spacing={{ xs: 3, md: 3.5 }} sx={{ height: '100%' }}>
             <Box data-testid="ed-preview" sx={{ flex: 1 }}>
               <PreviewPanel />
             </Box>

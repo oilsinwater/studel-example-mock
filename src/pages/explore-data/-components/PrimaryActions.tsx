@@ -18,7 +18,7 @@ export const PrimaryActions: React.FC<PrimaryActionsProps> = ({
 }) => {
   return (
     <Surface dense title="Next steps" eyebrow="Actions">
-      <Stack spacing={1.5}>
+      <Stack spacing={2}>
         <Button
           data-testid="view-detail-button"
           variant="contained"
