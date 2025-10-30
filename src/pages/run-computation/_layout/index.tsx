@@ -24,7 +24,7 @@ function RunComputationIndex() {
   };
 
   return (
-    <Stack spacing={4}>
+    <Stack spacing={{ xs: 4, md: 5 }}>
       <PageHeader
         pageTitle={runComputationConfig.title}
         description="Select a process dataset, choose a simulation model, configure its parameters, and execute a computation. Monitor the run and analyze the resulting output data."

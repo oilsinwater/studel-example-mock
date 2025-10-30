@@ -57,7 +57,7 @@ export const OutputDataTable: React.FC<OutputDataTableProps> = ({
       }}
       data-testid="rc-output-table"
     >
-      <Typography variant="body2" color="text.secondary">
+      <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
         View the processed rows produced by this run.
       </Typography>
       <DataGrid rows={rows} columns={columns} sx={{ flex: 1 }} />

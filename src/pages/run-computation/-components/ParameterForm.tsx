@@ -46,7 +46,7 @@ export const ParameterForm: React.FC<ParameterFormProps> = ({
       eyebrow={`Inputs for ${model.name}`}
       data-testid="rc-parameter-form"
     >
-      <Stack spacing={2}>
+      <Stack spacing={2.5}>
         {model.parameters.map((param) => (
           <TextField
             key={param.id}

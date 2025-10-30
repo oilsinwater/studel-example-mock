@@ -37,7 +37,7 @@ function ComputationResults() {
   };
 
   return (
-    <Stack spacing={4}>
+    <Stack spacing={{ xs: 4, md: 5 }}>
       <PageHeader
         pageTitle={`Results for ${runId}`}
         breadcrumbTitle="Computation"

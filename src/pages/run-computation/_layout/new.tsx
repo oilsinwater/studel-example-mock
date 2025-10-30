@@ -61,15 +61,15 @@ function NewComputationRun() {
   );
 
   return (
-    <Stack spacing={4}>
+    <Stack spacing={{ xs: 4, md: 5 }}>
       <PageHeader
         pageTitle="New Computation Run"
         breadcrumbTitle="Computation"
         description="Select your inputs, fine-tune parameters, and launch the simulation."
       />
-      <Grid container spacing={3}>
+      <Grid container spacing={{ xs: 3, md: 4 }}>
         <Grid item xs={12} md={4}>
-          <Stack spacing={3}>
+          <Stack spacing={{ xs: 3, md: 3.5 }}>
             <DatasetSelector
               selectedDatasetId={state.selectedDatasetId}
               onSelect={(id) => dispatch(setSelectedDataset(id))}

@@ -9,7 +9,7 @@ export const Route = createFileRoute('/run-computation/_layout')({
 function RunComputationLayout() {
   return (
     <RunComputationProvider>
-      <Box sx={{ p: 3 }}>
+      <Box sx={{ py: { xs: 4, md: 6 }, px: { xs: 2, md: 3.5 } }}>
         <Outlet />
       </Box>
     </RunComputationProvider>

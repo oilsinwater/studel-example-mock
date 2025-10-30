@@ -19,7 +19,7 @@ export const ResultsSummary: React.FC<ResultsSummaryProps> = ({ run }) => {
       eyebrow="Execution details"
       data-testid="rc-results-summary"
     >
-      <Stack spacing={1}>
+      <Stack spacing={1.5}>
         <Typography>
           <strong>Run ID:</strong> {run.runId}
         </Typography>
