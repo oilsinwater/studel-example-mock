@@ -5,6 +5,11 @@ import { Surface } from '../../../components/Surface';
 
 export const PreviewPanel: React.FC = () => {
   const { state, filteredRows } = useExploreDataContext();
+  const basePanelSx = {
+    width: '100%',
+    maxHeight: { xs: 'none', md: 'calc(100vh - 320px)' },
+    minWidth: 0,
+  } as const;
 
   const selectedDataset =
     state.selectedIds.length > 0
@@ -17,10 +22,12 @@ export const PreviewPanel: React.FC = () => {
         title="Preview"
         eyebrow="Selected dataset"
         sx={{
-          height: '100%',
+          ...basePanelSx,
+          display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
           textAlign: 'center',
+          overflow: 'hidden',
         }}
       >
         <Typography color="text.secondary">
@@ -41,7 +48,12 @@ export const PreviewPanel: React.FC = () => {
     <Surface
       title="Preview"
       eyebrow="Selected dataset"
-      sx={{ height: '100%', overflow: 'auto' }}
+      sx={{
+        ...basePanelSx,
+        overflowY: 'auto',
+        overflowX: 'hidden',
+        flexShrink: 0,
+      }}
     >
       <Stack spacing={2.5}>
         <Box>

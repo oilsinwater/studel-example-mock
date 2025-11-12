@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Grid, Stack, TextField, Typography } from '@mui/material';
+import { Box, Button, Grid, Stack, TextField, Typography } from '@mui/material';
 import { DataGrid, GridRowParams } from '@mui/x-data-grid';
 import { createFileRoute, useNavigate } from '@tanstack/react-router';
 import { PageHeader } from '../../components/PageHeader';
@@ -21,6 +21,21 @@ export const Route = createFileRoute('/explore-data/')({
 const ExploreDataContent: React.FC = () => {
   const { state, dispatch, filteredRows } = useExploreDataContext();
   const navigate = useNavigate();
+  const [filtersOpen, setFiltersOpen] = React.useState(true);
+  const [previewOpen, setPreviewOpen] = React.useState(true);
+
+  const datasetPanelHeight = {
+    xs: 'calc(100vh - 280px)',
+    md: 'calc(100vh - 320px)',
+    lg: 'calc(100vh - 360px)',
+  } as const;
+
+  const filterColumns = filtersOpen ? 3 : 0;
+  const previewColumns = previewOpen ? 3 : 0;
+  const datasetColumns = (() => {
+    const remainder = 12 - filterColumns - previewColumns;
+    return remainder > 0 ? remainder : 12;
+  })();
 
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     dispatch(updateSearch(event.target.value));
@@ -81,22 +96,63 @@ const ExploreDataContent: React.FC = () => {
         />
       </Surface>
 
-      <Grid container spacing={{ xs: 3, md: 4 }} sx={{ alignItems: 'stretch' }}>
-        <Grid item xs={12} md={3}>
-          <Box data-testid="ed-filters" sx={{ height: '100%' }}>
-            <FiltersPanel />
-          </Box>
-        </Grid>
+      <Stack
+        direction={{ xs: 'column', sm: 'row' }}
+        spacing={1}
+        justifyContent={{ xs: 'flex-start', sm: 'flex-end' }}
+      >
+        <Button
+          variant="outlined"
+          size="small"
+          onClick={() => setFiltersOpen((open) => !open)}
+        >
+          {filtersOpen ? 'Hide Filters' : 'Show Filters'}
+        </Button>
+        <Button
+          variant="outlined"
+          size="small"
+          onClick={() => setPreviewOpen((open) => !open)}
+        >
+          {previewOpen ? 'Hide Preview' : 'Show Preview'}
+        </Button>
+      </Stack>
 
-        <Grid item xs={12} md={6} sx={{ display: 'flex' }}>
+      <Grid
+        container
+        spacing={{ xs: 3, md: 4 }}
+        sx={{ alignItems: 'flex-start' }}
+      >
+        {filtersOpen ? (
+          <Grid item xs={12} md={3}>
+            <Box data-testid="ed-filters" sx={{ height: '100%' }}>
+              <FiltersPanel />
+            </Box>
+          </Grid>
+        ) : null}
+
+        <Grid
+          item
+          xs={12}
+          md={datasetColumns}
+          lg={datasetColumns}
+          sx={{ display: 'flex' }}
+        >
           <Surface
             eyebrow="Dataset library"
             title={`Datasets (${filteredRows.length})`}
-            sx={{ flex: 1 }}
+            sx={{
+              flex: 1,
+              minHeight: 0,
+              display: 'flex',
+              flexDirection: 'column',
+              height: datasetPanelHeight,
+              maxHeight: datasetPanelHeight,
+              overflow: 'hidden',
+            }}
           >
             <Box
               data-testid="ed-grid"
-              sx={{ flex: 1, minHeight: 0, display: 'flex' }}
+              sx={{ flex: 1, minHeight: 0, display: 'flex', height: '100%' }}
             >
               {state.loading ? (
                 <Box
@@ -137,8 +193,11 @@ const ExploreDataContent: React.FC = () => {
                       dispatch(selectDataset(newSelection[0] as string));
                     }
                   }}
+                  autoHeight={false}
                   sx={{
                     flex: 1,
+                    height: '100%',
+                    minHeight: 0,
                     '& .MuiDataGrid-row': {
                       cursor: 'pointer',
                       '&:hover': {
@@ -157,21 +216,23 @@ const ExploreDataContent: React.FC = () => {
           </Surface>
         </Grid>
 
-        <Grid item xs={12} md={3}>
-          <Stack spacing={{ xs: 3, md: 3.5 }} sx={{ height: '100%' }}>
-            <Box data-testid="ed-preview" sx={{ flex: 1 }}>
-              <PreviewPanel />
-            </Box>
-            <Box data-testid="ed-actions">
-              <PrimaryActions
-                onViewDetail={handleViewDetail}
-                onVisualize={handleVisualize}
-                onBenchmarkQuality={handleBenchmarkQuality}
-                disabled={state.selectedIds.length === 0}
-              />
-            </Box>
-          </Stack>
-        </Grid>
+        {previewOpen ? (
+          <Grid item xs={12} md={3} sx={{ alignSelf: 'flex-start' }}>
+            <Stack spacing={{ xs: 3, md: 3.5 }} sx={{ minHeight: 0 }}>
+              <Box data-testid="ed-preview" sx={{ flex: 1, minHeight: 0 }}>
+                <PreviewPanel />
+              </Box>
+              <Box data-testid="ed-actions">
+                <PrimaryActions
+                  onViewDetail={handleViewDetail}
+                  onVisualize={handleVisualize}
+                  onBenchmarkQuality={handleBenchmarkQuality}
+                  disabled={state.selectedIds.length === 0}
+                />
+              </Box>
+            </Stack>
+          </Grid>
+        ) : null}
       </Grid>
     </Stack>
   );
