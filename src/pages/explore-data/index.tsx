@@ -83,7 +83,7 @@ const ExploreDataContent: React.FC = () => {
         dense
         eyebrow="Search"
         title="Find datasets"
-        sx={{ maxWidth: 720 }}
+        sx={{ width: '100%', maxWidth: { xs: '100%', md: 960 } }}
       >
         <TextField
           data-testid="search-input"
@@ -95,28 +95,6 @@ const ExploreDataContent: React.FC = () => {
           placeholder="Search by name, description, or domain"
         />
       </Surface>
-
-      <Stack
-        direction={{ xs: 'column', sm: 'row' }}
-        spacing={1}
-        justifyContent={{ xs: 'flex-start', sm: 'flex-end' }}
-      >
-        <Button
-          variant="outlined"
-          size="small"
-          onClick={() => setFiltersOpen((open) => !open)}
-        >
-          {filtersOpen ? 'Hide Filters' : 'Show Filters'}
-        </Button>
-        <Button
-          variant="outlined"
-          size="small"
-          onClick={() => setPreviewOpen((open) => !open)}
-        >
-          {previewOpen ? 'Hide Preview' : 'Show Preview'}
-        </Button>
-      </Stack>
-
       <Grid
         container
         spacing={{ xs: 3, md: 4 }}
@@ -140,6 +118,24 @@ const ExploreDataContent: React.FC = () => {
           <Surface
             eyebrow="Dataset library"
             title={`Datasets (${filteredRows.length})`}
+            actions={
+              <Stack direction="row" spacing={1}>
+                <Button
+                  variant="outlined"
+                  size="small"
+                  onClick={() => setFiltersOpen((open) => !open)}
+                >
+                  {filtersOpen ? 'Hide Filters' : 'Show Filters'}
+                </Button>
+                <Button
+                  variant="outlined"
+                  size="small"
+                  onClick={() => setPreviewOpen((open) => !open)}
+                >
+                  {previewOpen ? 'Hide Preview' : 'Show Preview'}
+                </Button>
+              </Stack>
+            }
             sx={{
               flex: 1,
               minHeight: 0,

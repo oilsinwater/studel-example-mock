@@ -51,19 +51,24 @@ function Index() {
         <Stack spacing={{ xs: 4, md: 6 }}>
           <Stack spacing={1.5} alignItems="center" textAlign="center">
             <Typography variant="overline" color="text.secondary">
-              Strudel Mock Charts
+              SciData Hub
             </Typography>
-            <Typography variant="h1" component="h1">
-              Compose scientific task flows with confidence.
+            <Typography
+              variant="h1"
+              component="h1"
+              sx={{ textWrap: 'balance' }}
+            >
+              Coordinate your lab’s datasets, benchmarks, and runs.
             </Typography>
             <Typography
               variant="body1"
               color="text.secondary"
-              sx={{ maxWidth: '46rem' }}
+              sx={{ maxWidth: '46rem', textWrap: 'balance' }}
             >
-              Explore datasets, benchmark quality, and launch computations with
-              ready-to-edit STRUDEL templates that keep the focus on analytical
-              clarity.
+              SciData Hub is the command center for curating research data,
+              validating quality, and launching computations without juggling
+              tools. Pick up the flow you need, stay in context, and hand work
+              off with confidence.
             </Typography>
           </Stack>
 
@@ -78,13 +83,21 @@ function Index() {
           >
             <Stack spacing={{ xs: 3, md: 4 }}>
               <Stack spacing={1} alignItems="center" textAlign="center">
-                <Typography variant="h4" component="h2">
-                  Select a direction to begin.
+                <Typography
+                  variant="h4"
+                  component="h2"
+                  sx={{ textWrap: 'balance' }}
+                >
+                  What do you need to do today?
                 </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  Follow one of these calm pathways to explore, compare, or run
-                  models — each channel keeps the interface focused and
-                  monochrome.
+                <Typography
+                  variant="body2"
+                  color="text.secondary"
+                  sx={{ textWrap: 'balance' }}
+                >
+                  Each workspace highlights a single mode—explore, compare, or
+                  compute—so teams can capture context, share links, and keep
+                  momentum without tab sprawl.
                 </Typography>
               </Stack>
 
