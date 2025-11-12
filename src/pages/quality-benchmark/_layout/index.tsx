@@ -89,9 +89,13 @@ export function QualityBenchmarkIndexPage() {
         />
       </Box>
 
-      <Grid container spacing={{ xs: 3, md: 4 }} sx={{ alignItems: 'stretch' }}>
+      <Grid
+        container
+        spacing={{ xs: 3, md: 4 }}
+        sx={{ alignItems: 'flex-start' }}
+      >
         <Grid item xs={12} md={4} lg={3}>
-          <Stack spacing={{ xs: 3, md: 3.5 }} sx={{ height: '100%' }}>
+          <Stack spacing={{ xs: 3, md: 3.5 }} sx={{ minHeight: 0 }}>
             <SelectionSummary
               originFlow={state.originFlow}
               selectedIds={state.selectedIds}
@@ -120,9 +124,9 @@ export function QualityBenchmarkIndexPage() {
           </Stack>
         </Grid>
 
-        <Grid item xs={12} md={8} lg={9}>
-          <Stack spacing={{ xs: 3, md: 3.5 }} sx={{ height: '100%' }}>
-            <Box sx={{ flex: 1 }}>
+        <Grid item xs={12} md={8} lg={9} sx={{ alignSelf: 'flex-start' }}>
+          <Stack spacing={{ xs: 3, md: 3.5 }} sx={{ minHeight: 0 }}>
+            <Box sx={{ flex: 1, minHeight: 0 }}>
               <DatasetPicker
                 rows={state.benchmarkRows}
                 selectedIds={state.selectedIds}

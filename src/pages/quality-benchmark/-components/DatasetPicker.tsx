@@ -16,6 +16,17 @@ export const DatasetPicker: React.FC<DatasetPickerProps> = ({
   selectedIds,
   onSelectionChange,
 }) => {
+  const panelSx = {
+    width: '100%',
+    minWidth: 0,
+  } as const;
+
+  const pickerHeight = {
+    xs: 'calc(100vh - 240px)',
+    md: 'calc(100vh - 320px)',
+    lg: 'calc(100vh - 360px)',
+  } as const;
+
   const handleSelection = (model: GridRowSelectionModel) => {
     onSelectionChange(model.map(String));
   };
@@ -24,12 +35,28 @@ export const DatasetPicker: React.FC<DatasetPickerProps> = ({
     <Surface
       eyebrow="Comparison pool"
       title="Select datasets"
-      sx={{ height: '100%', display: 'flex' }}
+      sx={{
+        ...panelSx,
+        display: 'flex',
+        flexDirection: 'column',
+        height: pickerHeight,
+        maxHeight: pickerHeight,
+        overflow: 'hidden',
+      }}
     >
-      <Box sx={{ flex: 1 }} data-testid="qb-picker">
+      <Box
+        sx={{
+          flex: 1,
+          minHeight: 0,
+          height: '100%',
+          overflow: 'hidden',
+        }}
+        data-testid="qb-picker"
+      >
         <DataGrid
           rows={rows}
           columns={qualityBenchmarkConfig.columns}
+          autoHeight={false}
           checkboxSelection
           disableRowSelectionOnClick={false}
           onRowSelectionModelChange={handleSelection}
@@ -42,6 +69,14 @@ export const DatasetPicker: React.FC<DatasetPickerProps> = ({
             selectedIds.includes(String(params.id)) ? 'qb-selected-row' : ''
           }
           sx={{
+            height: '100%',
+            minHeight: 0,
+            '& .MuiDataGrid-main': {
+              height: '100%',
+            },
+            '& .MuiDataGrid-virtualScroller': {
+              overflowY: 'auto',
+            },
             '& .qb-selected-row': {
               backgroundColor: 'action.hover',
             },

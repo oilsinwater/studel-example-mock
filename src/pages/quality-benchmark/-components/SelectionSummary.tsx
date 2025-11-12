@@ -31,7 +31,11 @@ export const SelectionSummary: React.FC<SelectionSummaryProps> = ({
         <Typography variant="body2">
           Selected datasets: <strong>{selectedIds.length}</strong>
         </Typography>
-        <Typography variant="body2" sx={{ display: 'flex', gap: 1 }}>
+        <Typography
+          variant="body2"
+          component="div"
+          sx={{ display: 'flex', gap: 1 }}
+        >
           Baseline dataset:{' '}
           {baselineId ? (
             <Chip label={baselineId} size="small" color="primary" />
