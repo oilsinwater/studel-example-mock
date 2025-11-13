@@ -88,7 +88,7 @@ export const NewScenarioModal: React.FC<Props> = ({
           rows={4}
         />
         <Box textAlign="right">
-          <AppLink to="/run-computation/$id/data-inputs" params={{ id: 'new' }}>
+          <AppLink to="/run-computation/new">
             <Button variant="contained" data-testid="rnc-create-button">
               Create
             </Button>
