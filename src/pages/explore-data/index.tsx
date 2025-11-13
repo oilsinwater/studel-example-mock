@@ -83,7 +83,7 @@ const ExploreDataContent: React.FC = () => {
         dense
         eyebrow="Search"
         title="Find datasets"
-        sx={{ width: '100%', maxWidth: { xs: '100%', md: 960 } }}
+        sx={{ width: '100%' }}
       >
         <TextField
           data-testid="search-input"
