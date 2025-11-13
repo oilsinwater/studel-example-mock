@@ -85,6 +85,12 @@ function QualityBenchmarkCompare() {
     });
   };
 
+  const matrixPanelHeight = {
+    xs: 'calc(100vh - 280px)',
+    md: 'calc(100vh - 340px)',
+    lg: 'calc(100vh - 360px)',
+  } as const;
+
   return (
     <Box sx={{ py: { xs: 4, md: 6 }, px: { xs: 2, md: 3.5 } }}>
       <Stack spacing={{ xs: 2.5, md: 3 }}>
@@ -118,13 +124,27 @@ function QualityBenchmarkCompare() {
           </ToggleButtonGroup>
         </Stack>
 
-        <Grid container spacing={{ xs: 3, md: 4 }}>
-          <Grid item xs={12} md={8}>
-            <MetricsMatrix
-              rows={comparisonRows}
-              baselineId={state.baselineId}
-              onRowClick={handleOpenReport}
-            />
+        <Grid
+          container
+          spacing={{ xs: 3, md: 4 }}
+          sx={{ alignItems: 'flex-start' }}
+        >
+          <Grid item xs={12} md={8} sx={{ alignSelf: 'flex-start' }}>
+            <Box
+              sx={{
+                height: matrixPanelHeight,
+                maxHeight: matrixPanelHeight,
+                minHeight: 0,
+                overflow: 'hidden',
+              }}
+            >
+              <MetricsMatrix
+                rows={comparisonRows}
+                baselineId={state.baselineId}
+                onRowClick={handleOpenReport}
+                sx={{ height: '100%' }}
+              />
+            </Box>
           </Grid>
           <Grid item xs={12} md={4}>
             <InsightsPanel
