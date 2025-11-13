@@ -1,7 +1,7 @@
 import React from 'react';
 import { Box, Paper, PaperProps, Stack, Typography } from '@mui/material';
 
-interface SurfaceProps extends PaperProps {
+interface SurfaceProps extends Omit<PaperProps, 'title'> {
   eyebrow?: React.ReactNode;
   title?: React.ReactNode;
   description?: React.ReactNode;
@@ -30,7 +30,7 @@ export const Surface: React.FC<SurfaceProps> = ({
       sx={[
         {
           p: dense ? 2 : 3,
-          borderRadius: 20,
+          borderRadius: 4,
           border: '1px solid rgba(255,255,255,0.08)',
           background:
             'linear-gradient(140deg, rgba(24,24,26,0.92) 0%, rgba(12,12,14,0.94) 100%)',
