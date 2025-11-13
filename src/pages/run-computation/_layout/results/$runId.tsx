@@ -1,4 +1,3 @@
-import React from 'react';
 import { Stack, Button } from '@mui/material';
 import {
   createFileRoute,
@@ -32,7 +31,10 @@ function ComputationResults() {
       // This is a mock navigation, assuming the output of a run
       // becomes a new dataset in the explore-data task flow.
       // The id is hardcoded for now.
-      navigate({ to: '/explore-data/detail/exp-2024-03-A' });
+      navigate({
+        to: '/explore-data/detail/$id',
+        params: { id: 'exp-2024-03-A' },
+      });
     }
   };
 
