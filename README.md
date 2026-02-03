@@ -25,7 +25,7 @@ The STRUDEL Example Mock Charts project provides a practical implementation of t
 
 ## Screenshots
 
-![Home page](images/home.png)
+![Home page](images/home.gif)
 
 ![Run Computation results page](images/run-computation-results.png)
 
