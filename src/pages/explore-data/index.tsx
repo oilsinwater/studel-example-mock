@@ -13,6 +13,9 @@ import { updateSearch, selectDataset } from './-context/actions';
 import { FiltersPanel } from './-components/FiltersPanel';
 import { PreviewPanel } from './-components/PreviewPanel';
 import { PrimaryActions } from './-components/PrimaryActions';
+import { EmptyState } from '../../components/EmptyState';
+import { ErrorBanner } from '../../components/ErrorBanner';
+import { clearFilters } from './-context/actions';
 
 export const Route = createFileRoute('/explore-data/')({
   component: ExploreDataPage,
@@ -118,12 +121,17 @@ const ExploreDataContent: React.FC = () => {
           <Surface
             eyebrow="Dataset library"
             title={`Datasets (${filteredRows.length})`}
+            titleProps={{
+              'aria-live': 'polite',
+              'aria-atomic': 'true',
+            }}
             actions={
               <Stack direction="row" spacing={1}>
                 <Button
                   variant="outlined"
                   size="small"
                   onClick={() => setFiltersOpen((open) => !open)}
+                  aria-label={filtersOpen ? 'Hide Filters' : 'Show Filters'}
                 >
                   {filtersOpen ? 'Hide Filters' : 'Show Filters'}
                 </Button>
@@ -131,6 +139,7 @@ const ExploreDataContent: React.FC = () => {
                   variant="outlined"
                   size="small"
                   onClick={() => setPreviewOpen((open) => !open)}
+                  aria-label={previewOpen ? 'Hide Preview' : 'Show Preview'}
                 >
                   {previewOpen ? 'Hide Preview' : 'Show Preview'}
                 </Button>
@@ -164,16 +173,17 @@ const ExploreDataContent: React.FC = () => {
                   </Typography>
                 </Box>
               ) : state.error ? (
-                <Box
-                  sx={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    width: '100%',
+                <ErrorBanner
+                  message={state.error}
+                  onRetry={() => window.location.reload()}
+                />
+              ) : filteredRows.length === 0 ? (
+                <EmptyState
+                  action={{
+                    label: 'Clear Filters',
+                    onClick: () => dispatch(clearFilters()),
                   }}
-                >
-                  <Typography color="error">{state.error}</Typography>
-                </Box>
+                />
               ) : (
                 <DataGrid
                   rows={filteredRows}

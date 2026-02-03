@@ -26,6 +26,7 @@ export const PrimaryActions: React.FC<PrimaryActionsProps> = ({
           onClick={onViewDetail}
           disabled={disabled}
           fullWidth
+          aria-label="View Details"
         >
           View Details
         </Button>
@@ -36,6 +37,7 @@ export const PrimaryActions: React.FC<PrimaryActionsProps> = ({
           onClick={onVisualize}
           disabled={disabled}
           fullWidth
+          aria-label="Visualize Dataset"
         >
           Visualize
         </Button>
@@ -47,6 +49,7 @@ export const PrimaryActions: React.FC<PrimaryActionsProps> = ({
           onClick={onBenchmarkQuality}
           disabled={disabled}
           fullWidth
+          aria-label="Benchmark Quality"
         >
           Benchmark Quality
         </Button>

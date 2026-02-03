@@ -4,7 +4,11 @@ design_spec:
     task_flow_type: 'monitor-activities'
     domain: 'Data Science and Visualization'
     description: 'Assess, benchmark, and monitor data quality for scientific datasets with validation workflows and quality trend analysis'
-    schema_version: '1.0.0'
+    schema_version: '1.1.0'
+    accessibility:
+      standard: 'WCAG 2.1 AA'
+      keyboard_nav: 'Full keyboard support for assessment grid and check configuration'
+      screen_reader: 'ARIA live regions for progress updates during quality checks'
 
   routes:
     - name: 'index'
@@ -12,9 +16,9 @@ design_spec:
       layout: 'root'
       children:
         - name: 'assess'
-          path: 'assess/:id'
+          path: 'assess/:datasetId'
         - name: 'results'
-          path: 'results/:id'
+          path: 'results/:assessmentId'
         - name: 'trends'
           path: 'trends'
 
@@ -28,6 +32,8 @@ design_spec:
           'AssessmentGrid',
           'QualityPreview',
           'PrimaryActions',
+          'DatasetSelectionModal',
+          'EmptyState'
         ]
       data_bindings:
         source: 'assessments.main'
@@ -37,8 +43,12 @@ design_spec:
       regions:
         header: ['title', 'description']
         left: ['Filters']
-        main: ['AssessmentGrid', 'QualityPreview']
+        main: ['AssessmentGrid', 'QualityPreview', 'EmptyState']
         footer: ['PrimaryActions']
+        modals: ['DatasetSelectionModal']
+      states:
+        empty: 'Show EmptyState if no assessments found'
+        modalOpen: 'Show DatasetSelectionModal when "New Assessment" clicked'
 
     - id: 'assess'
       purpose: 'Run quality assessment checks on selected dataset'
@@ -49,6 +59,7 @@ design_spec:
           'QualityChecks',
           'ValidationResults',
           'AssessmentActions',
+          'ProgressBar'
         ]
       data_bindings:
         source: 'assessments.current'
@@ -58,8 +69,11 @@ design_spec:
       regions:
         header: ['datasetName', 'backButton']
         left: ['DatasetInfo', 'QualityChecks']
-        main: ['ValidationResults']
+        main: ['ValidationResults', 'ProgressBar']
         footer: ['AssessmentActions']
+      states:
+        running: 'Show ProgressBar and disable actions'
+        error: 'Show error message if checks fail to run'
 
     - id: 'results'
       purpose: 'View detailed assessment results and quality metrics'
@@ -69,7 +83,7 @@ design_spec:
           'QualityMetrics',
           'ValidationDetails',
           'TrendCharts',
-          'ResultActions',
+          'ResultActions'
         ]
       data_bindings:
         source: 'assessments.results'
@@ -90,7 +104,7 @@ design_spec:
           'TrendFilters',
           'QualityTrendCharts',
           'DatasetComparison',
-          'TrendActions',
+          'TrendActions'
         ]
       data_bindings:
         source: 'assessments.trends'
@@ -109,6 +123,7 @@ design_spec:
       Filter: '{ field: string; op: string; value: any }'
       QualityCheck: '{ checkId: string; name: string; enabled: boolean; threshold: number }'
       AssessmentResult: "{ checkId: string; status: 'pass' | 'fail' | 'warning'; score: number; details: string }"
+      Dataset: '{ id: string; name: string }'
     initial:
       selectedIds: []
       filters: []
@@ -117,8 +132,11 @@ design_spec:
       qualityChecks: []
       assessmentResults: []
       loading: false
+      progress: 0
       error: null
       trends: []
+      isModalOpen: false
+      availableDatasets: []
     derived:
       filteredAssessments: 'assessments filtered by filters'
       qualityScore: 'average score from assessmentResults'
@@ -137,17 +155,31 @@ design_spec:
         on: 'change'
         testid: 'filters-apply'
 
+    - name: 'openNewAssessment'
+      kind: 'ui'
+      payload: '{}'
+      preconditions: []
+      state_mutations:
+        - 'isModalOpen = true'
+        - 'availableDatasets = loadDatasets()'
+      side_effects: []
+      triggers:
+        component: 'PrimaryActions'
+        on: 'click'
+        testid: 'new-assessment-button'
+
     - name: 'navigateToAssess'
       kind: 'navigate'
       payload: '{ datasetId: string }'
       preconditions: ['datasetId != null']
-      state_mutations: []
+      state_mutations:
+        - 'isModalOpen = false'
       side_effects:
         - "route.push('/quality-benchmark/assess/' + datasetId)"
       triggers:
-        component: 'AssessmentGrid'
-        on: 'rowClick'
-        testid: 'assessment-row'
+        component: 'DatasetSelectionModal'
+        on: 'select'
+        testid: 'select-dataset-button'
 
     - name: 'runQualityChecks'
       kind: 'compute'
@@ -155,13 +187,27 @@ design_spec:
       preconditions: ['checks.length > 0']
       state_mutations:
         - 'loading = true'
+        - 'progress = 0'
         - 'error = null'
       side_effects:
         - "async/qualityService(payload) -> dispatch('finishQualityChecks')"
+        - "stream/progress -> dispatch('updateProgress')"
       triggers:
         component: 'AssessmentActions'
         on: 'click'
         testid: 'run-checks-button'
+
+    - name: 'updateProgress'
+      kind: 'compute'
+      payload: '{ percent: number }'
+      preconditions: ['loading === true']
+      state_mutations:
+        - 'progress = payload.percent'
+      side_effects: []
+      triggers:
+        component: 'system'
+        on: 'progress'
+        testid: null
 
     - name: 'finishQualityChecks'
       kind: 'compute'
@@ -173,6 +219,7 @@ design_spec:
         - 'assessments = append(assessments, payload)'
       side_effects:
         - "route.push('/quality-benchmark/results/' + payload.assessmentId)"
+        - 'announceToScreenReader("Quality checks completed")'
       triggers:
         component: 'system'
         on: 'asyncComplete'
@@ -210,9 +257,13 @@ design_spec:
         to: 'index'
         guard: 'state.filters change'
       - from: 'index'
+        action: 'openNewAssessment'
+        to: 'index'
+        guard: 'modal opens'
+      - from: 'index'
         action: 'navigateToAssess'
         to: 'assess'
-        guard: 'datasetId != null'
+        guard: 'dataset selected'
       - from: 'assess'
         action: 'runQualityChecks'
         to: 'results'
@@ -383,6 +434,7 @@ design_spec:
       checks: 'qb-checks'
       results: 'qb-results'
       trends: 'qb-trends'
+      modal: 'qb-modal'
     controls:
       runChecksButton: 'run-checks-button'
       assessButton: 'assess-button'
@@ -391,6 +443,8 @@ design_spec:
       filtersApply: 'filters-apply'
       assessmentRow: 'assessment-row'
       qualityChecks: 'quality-checks'
+      newAssessmentButton: 'new-assessment-button'
+      selectDatasetButton: 'select-dataset-button'
 
   test_plan:
     unit_vitest:
@@ -424,6 +478,13 @@ design_spec:
           - 'cy.get(''[data-testid="filters-apply"]'').click()'
           - 'cy.get(''[data-testid="qb-grid"]'').should(''exist'')'
           - 'cy.get(''[data-testid="assessment-row"]'').first().click()'
+          - "cy.url().should('include', '/assess/')"
+
+      - name: 'can initiate new assessment'
+        steps:
+          - 'cy.get(''[data-testid="new-assessment-button"]'').click()'
+          - 'cy.get(''[data-testid="qb-modal"]'').should(''be.visible'')'
+          - 'cy.get(''[data-testid="select-dataset-button"]'').first().click()'
           - "cy.url().should('include', '/assess/')"
 
       - name: 'runs quality checks workflow'

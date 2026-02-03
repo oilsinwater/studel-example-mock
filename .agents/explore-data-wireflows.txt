@@ -1,11 +1,14 @@
 ASCII WIREFLOW:
 
 [INDEX] --applyFilter--> [INDEX]                    // state-only mutation
+[INDEX] --filterEmpty--> [INDEX (Empty State)]      // guard: filteredRows.length == 0
 [INDEX] --updateSearch--> [INDEX]                   // state-only mutation
 [INDEX] --selectDataset--> [INDEX]                  // state-only mutation
 [INDEX] --navigateToDetail(id)--> [DETAIL]          // guard: selectedIds.length > 0
+[INDEX] --loadFail--> [INDEX (Error Banner)]        // async error
 [INDEX] --navigateToVisualize(id)--> [VISUALIZE]    // guard: selectedIds.length > 0
 [DETAIL] --navigateBack--> [INDEX]                  // always
+[DETAIL] --loadFail--> [DETAIL (Error Page)]        // async error
 [VISUALIZE] --updateChartConfig--> [VISUALIZE]      // state-only mutation
 [VISUALIZE] --navigateBack--> [INDEX]               // always
 
@@ -16,15 +19,20 @@ INDEX SCREEN (explore-data)
 +--------------------------------------------------------+
 | Header: Explore Datasets + Search Bar (ed-header)     |
 +-------------------+------------------------------------+
-| Filters Panel     | Data Grid: datasets table         |
-| (ed-filters)      | (ed-grid)                         |
-| - Format          +------------------------------------+
-| - Domain          | Preview Panel: selected dataset   |
-| - Row Count       | metadata + sample (ed-preview)    |
-| - Quality Score   |                                   |
-| [Apply Filters]   |                                   |
+| Filters Panel     | [Error Banner (ed-error)]         |
+| (ed-filters)      | [Loading Overlay (ed-loading)]    |
+| - Format          |                                   |
+| - Domain          | Data Grid: datasets table         |
+| - Row Count       | (ed-grid)                         |
+| - Quality Score   | OR                                |
+| [Apply Filters]   | Empty State (ed-empty)            |
+|                   +------------------------------------+
+|                   | Preview Panel: selected dataset   |
+|                   | metadata + sample (ed-preview)    |
 +-------------------+------------------------------------+
 | Primary Actions: [View Details] [Visualize] (ed-actions) |
++--------------------------------------------------------+
+| Responsive: On mobile, Filters stack above Grid.       |
 +--------------------------------------------------------+
 
 DETAIL SCREEN (explore-data/detail/:id)
@@ -39,6 +47,7 @@ DETAIL SCREEN (explore-data/detail/:id)
 | - Last modified   | - Missing value analysis          |
 +-------------------+------------------------------------+
 | Sample Data Grid: first 100 rows (ed-grid)           |
+| [Loading Skeleton (ed-loading)]                       |
 +--------------------------------------------------------+
 | Secondary Actions: [Download] [Export Metadata]       |
 +--------------------------------------------------------+
@@ -52,9 +61,9 @@ VISUALIZE SCREEN (explore-data/visualize/:id)
 +-------------------+------------------------------------+
 | Plotly Chart      | Data Summary                      |
 | (ed-chart)        | (ed-summary)                      |
-| Interactive plot  | - Selected points: N              |
-| with zoom/pan     | - Statistics                      |
-| and selection     | - Correlation info                |
+| [Spinner (ed-loading)]| - Selected points: N          |
+|                   | - Statistics                      |
+|                   | - Correlation info                |
 +-------------------+------------------------------------+
 | Visualization Actions: [Export Chart] [Save Config]   |
 +--------------------------------------------------------+

@@ -4,7 +4,11 @@ design_spec:
     task_flow_type: 'explore-data'
     domain: 'Data Science and Visualization'
     description: 'Browse, filter, and preview scientific datasets with interactive visualizations'
-    schema_version: '1.0.0'
+    schema_version: '1.1.0'
+    accessibility:
+      standard: 'WCAG 2.1 AA'
+      keyboard_nav: 'Full keyboard support for grid navigation and filtering'
+      screen_reader: 'ARIA labels for all interactive elements, live regions for search results'
 
   routes:
     - name: 'index'
@@ -26,6 +30,9 @@ design_spec:
           'DataGrid',
           'PreviewPanel',
           'PrimaryActions',
+          'EmptyState',
+          'ErrorBanner',
+          'LoadingOverlay'
         ]
       data_bindings:
         source: 'datasets.main'
@@ -35,13 +42,21 @@ design_spec:
       regions:
         header: ['title', 'description', 'searchBar']
         left: ['FiltersPanel']
-        main: ['DataGrid', 'PreviewPanel']
+        main: ['DataGrid', 'PreviewPanel', 'EmptyState', 'LoadingOverlay']
         footer: ['PrimaryActions']
+        alerts: ['ErrorBanner']
+      states:
+        loading: 'Show LoadingOverlay over DataGrid'
+        empty: 'Show EmptyState when filteredRows is 0'
+        error: 'Show ErrorBanner if data fetch fails'
+      responsive:
+        mobile: 'Stack FiltersPanel above DataGrid, hide PreviewPanel'
+        tablet: 'Collapsible FiltersPanel'
 
     - id: 'detail'
       purpose: 'View detailed metadata and statistics for a specific dataset'
       primary_components:
-        ['PageHeader', 'MetadataPanel', 'StatisticsPanel', 'SampleDataGrid']
+        ['PageHeader', 'MetadataPanel', 'StatisticsPanel', 'SampleDataGrid', 'LoadingSkeleton']
       data_bindings:
         source: 'datasets.detail'
         id_field: 'id'
@@ -51,11 +66,14 @@ design_spec:
         header: ['backButton', 'title', 'actions']
         main: ['MetadataPanel', 'StatisticsPanel', 'SampleDataGrid']
         footer: ['SecondaryActions']
+      states:
+        loading: 'Show LoadingSkeleton in main region'
+        error: 'Show ErrorPage if dataset not found'
 
     - id: 'visualize'
       purpose: 'Interactive visualization and analysis of dataset'
       primary_components:
-        ['PageHeader', 'ChartControls', 'PlotlyChart', 'DataSummary']
+        ['PageHeader', 'ChartControls', 'PlotlyChart', 'DataSummary', 'ChartPlaceholder']
       data_bindings:
         source: 'datasets.visualization'
         id_field: 'id'
@@ -63,8 +81,11 @@ design_spec:
       outputs: ['chartConfig', 'analysisResults']
       regions:
         header: ['backButton', 'title', 'chartControls']
-        main: ['PlotlyChart', 'DataSummary']
+        main: ['PlotlyChart', 'DataSummary', 'ChartPlaceholder']
         footer: ['VisualizationActions']
+      states:
+        empty: 'Show ChartPlaceholder before configuration'
+        loading: 'Show spinner on PlotlyChart during render'
 
   state:
     types:
@@ -72,6 +93,7 @@ design_spec:
       Filter: '{ field: string; op: string; value: any }'
       DatasetInfo: '{ id: string; name: string; description: string; rowCount: number; columns: string[]; lastModified: string; fileSize: number; format: string }'
       ChartConfig: '{ type: string; xAxis: string; yAxis: string; groupBy?: string }'
+      Error: '{ code: string; message: string }'
     initial:
       selectedIds: []
       filters: []
@@ -85,6 +107,7 @@ design_spec:
       filteredRows: 'datasets filtered by filters and searchTerm'
       selectedDataset: 'currentDataset details and statistics'
       visualizationData: 'processed data for charts based on chartConfig'
+      hasActiveFilters: 'filters.length > 0 || searchTerm !== ""'
 
   actions:
     - name: 'applyFilter'
@@ -93,7 +116,8 @@ design_spec:
       preconditions: []
       state_mutations:
         - 'filters = update(filters, payload)'
-      side_effects: []
+      side_effects:
+        - 'announceToScreenReader("Filters applied, " + filteredRows.length + " results found")'
       triggers:
         component: 'FiltersPanel'
         on: 'change'
@@ -155,8 +179,9 @@ design_spec:
       state_mutations:
         - 'loading = true'
         - 'currentDataset = null'
+        - 'error = null'
       side_effects:
-        - "async/loadDataset(id) -> dispatch('finishLoadDetail')"
+        - "async/loadDataset(id) -> dispatch('finishLoadDetail') catch dispatch('failLoadDetail')"
       triggers:
         component: 'system'
         on: 'routeChange'
@@ -173,6 +198,20 @@ design_spec:
       triggers:
         component: 'system'
         on: 'asyncComplete'
+        testid: null
+
+    - name: 'failLoadDetail'
+      kind: 'error'
+      payload: '{ error: Error }'
+      preconditions: ['loading === true']
+      state_mutations:
+        - 'loading = false'
+        - 'error = payload.error'
+      side_effects:
+        - 'toast.error(payload.error.message)'
+      triggers:
+        component: 'system'
+        on: 'asyncError'
         testid: null
 
     - name: 'updateChartConfig'
@@ -348,6 +387,9 @@ design_spec:
       statistics: 'ed-statistics'
       chart: 'ed-chart'
       controls: 'ed-controls'
+      empty: 'ed-empty'
+      error: 'ed-error'
+      loading: 'ed-loading'
 
     controls:
       searchInput: 'search-input'
@@ -382,11 +424,12 @@ design_spec:
           - 'rows reduced when searchTerm applied'
           - 'empty filters return all rows'
 
-      - name: 'async actions handle loading states'
-        targets: ['actions.loadDatasetDetail', 'actions.finishLoadDetail']
+      - name: 'async actions handle loading and error states'
+        targets: ['actions.loadDatasetDetail', 'actions.finishLoadDetail', 'actions.failLoadDetail']
         asserts:
           - 'loadDatasetDetail sets loading=true'
           - 'finishLoadDetail sets loading=false and currentDataset'
+          - 'failLoadDetail sets loading=false and error'
 
     e2e_cypress:
       - name: 'loads index and shows header'
@@ -402,6 +445,11 @@ design_spec:
           - 'cy.get(''[data-testid="ed-filters"]'').within(() => { cy.get(''select'').first().select(''CSV'') })'
           - 'cy.get(''[data-testid="filters-apply"]'').click()'
           - 'cy.get(''[data-testid="ed-grid"]'').should(''contain'', ''CSV'')'
+
+      - name: 'shows empty state when no results'
+        steps:
+          - 'cy.get(''[data-testid="search-input"]'').clear().type(''nonexistentdataset'')'
+          - 'cy.get(''[data-testid="ed-empty"]'').should(''be.visible'')'
 
       - name: 'can select dataset and view details'
         steps:

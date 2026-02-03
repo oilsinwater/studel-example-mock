@@ -7,6 +7,7 @@ interface SurfaceProps extends Omit<PaperProps, 'title'> {
   description?: React.ReactNode;
   actions?: React.ReactNode;
   dense?: boolean;
+  titleProps?: React.ComponentProps<typeof Typography>;
 }
 
 /**
@@ -21,6 +22,7 @@ export const Surface: React.FC<SurfaceProps> = ({
   actions,
   dense = false,
   children,
+  titleProps,
   sx,
   ...rest
 }) => {
@@ -34,28 +36,28 @@ export const Surface: React.FC<SurfaceProps> = ({
           border: '1px solid rgba(255,255,255,0.08)',
           background:
             'linear-gradient(140deg, rgba(24,24,26,0.92) 0%, rgba(12,12,14,0.94) 100%)',
-          boxShadow: '0 35px 70px rgba(0,0,0,0.35)',
-          backdropFilter: 'blur(16px)',
+          backdropFilter: 'blur(20px)',
+          boxShadow: '0 4px 24px -1px rgba(0,0,0,0.2)',
           display: 'flex',
           flexDirection: 'column',
-          minHeight: 0,
         },
-        ...(Array.isArray(sx) ? sx : sx ? [sx] : []),
+        ...(Array.isArray(sx) ? sx : [sx]),
       ]}
     >
-      {(eyebrow || title || description || actions) && (
+      {(eyebrow || title || actions) && (
         <Stack
           direction="row"
-          spacing={2}
           alignItems="flex-start"
-          sx={{ mb: children ? (dense ? 2.5 : 3.5) : 0 }}
+          justifyContent="space-between"
+          spacing={2}
+          sx={{ mb: dense ? 2 : 3, flexShrink: 0 }}
         >
-          <Stack spacing={0.75} sx={{ flex: 1 }}>
+          <Stack spacing={0.5}>
             {eyebrow ? (
               <Typography
                 variant="overline"
                 color="text.secondary"
-                sx={{ letterSpacing: '0.16em' }}
+                sx={{ lineHeight: 1, letterSpacing: '0.05em' }}
               >
                 {eyebrow}
               </Typography>
@@ -65,6 +67,7 @@ export const Surface: React.FC<SurfaceProps> = ({
                 variant="h6"
                 component="h3"
                 sx={{ fontWeight: 500, letterSpacing: '-0.01em' }}
+                {...(titleProps as any)}
               >
                 {title}
               </Typography>
